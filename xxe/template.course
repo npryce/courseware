@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<course>
+  <title>Course Title</title>
+
+  <copyright>
+    <year>2008</year>
+
+    <holder>Holder</holder>
+  </copyright>
+
+  <author>
+    <personname>
+      <firstname>Firstname</firstname>
+
+      <surname>Surname</surname>
+    </personname>
+
+    <email>example@example.com</email>
+  </author>
+
+  <unit>
+    <title>Unit Title</title>
+
+    <presentation fileref="???" />
+
+    <exercise fileref="???">
+      <handout fileref="???" />
+    </exercise>
+  </unit>
+</course>

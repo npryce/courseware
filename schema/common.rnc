@@ -1,0 +1,25 @@
+namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+
+title = element title { text }
+
+copyright = element copyright {
+	element year {text},
+    element holder {text},
+	license?
+}
+
+license = element license {
+	attribute href {text}?,
+    {text}
+}
+
+author = element author {
+	element personname {
+		element firstname {text},
+		element surname {text}
+	},
+	element email {text}?
+}
+
+fileref = attribute fileref {text}
+

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration name="Courseware"
+               xmlns="http://www.xmlmind.com/xmleditor/schema/configuration"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               xmlns:cw="http://www.jmock.org/xmlns/courseware/1.0"
+               xmlns:cfg="http://www.xmlmind.com/xmleditor/schema/configuration">
+  <detect>
+    <or>
+      <fileNameExtension>xcw</fileNameExtension>
+
+      <fileNameExtension>course</fileNameExtension>
+
+      <fileNameExtension>presentation</fileNameExtension>
+
+      <fileNameExtension>exercise</fileNameExtension>
+    </or>
+  </detect>
+
+  <relaxng compactSyntax="true" encoding="ISO-8859-1"
+           location="courseware.rnc"/>
+
+  <preserveSpace elements="programlisting"/>
+
+  <css location="courseware.css" name="Style Sheet"/>
+
+  <template location="template.presentation" name="Presentation"/>
+
+  <template location="template.course" name="Course"/>
+
+  <documentResources>
+    <resource path="//visual/@fileref"/>
+
+    <resource path="//exercise/@fileref"/>
+
+    <resource path="//presentation/@fileref"/>
+  </documentResources>
+
+  <spellCheckOptions checkComments="true" defaultLanguage="en-GB"
+                     languageAttribute="xml:lang"
+                     skippedElements="programlisting"
+                     useAutomaticSpellChecker="true"/>
+
+  <!-- Commands -->
+
+  <command name="cw.addListItem">
+    <macro>
+      <sequence>
+        <command name="selectNode"
+                 parameter="ancestor[implicitElement] itemizedlist orderedlist"/>
+
+        <command name="selectNode" parameter="child"/>
+
+        <command name="insertNode" parameter="sameElement%0"/>
+      </sequence>
+    </macro>
+  </command>
+
+  <command name="cw.splitOrInsertNewLine">
+    <macro>
+      <choice>
+        <command name="insertControlChar" parameter="\n"/>
+
+        <sequence>
+          <command name="selectNode"
+                   parameter="ancestorOrSelf[implicitElement] para"/>
+
+          <command name="split"/>
+        </sequence>
+      </choice>
+    </macro>
+  </command>
+
+  <command name="cw.joinOrDeleteChar">
+    <macro>
+      <choice>
+        <sequence>
+          <test expression="$dot/ancestor::para and not($selected) and not($mark)"/>
+
+          <command name="deleteSelectionOrJoinOrDeleteChar" parameter="%0"/>
+        </sequence>
+
+        <command name="deleteSelectionOrDeleteChar" parameter="%0"/>
+      </choice>
+    </macro>
+  </command>
+
+  <command name="cw.addSame">
+    <macro>
+      <choice>
+        <sequence>
+          <command name="selectNode"
+                   parameter="ancestorOrSelf[implicitElement] listitem"/>
+
+          <choice>
+            <sequence>
+              <match context="$selected"
+                     pattern="cw:listitem/*[position() = 1]"/>
+
+              <command name="cw.addListItem" parameter="%0"/>
+            </sequence>
+
+            <command name="insertNode" parameter="sameElement%0"/>
+          </choice>
+        </sequence>
+
+        <command name="cw.addListItem" parameter="%0"/>
+      </choice>
+    </macro>
+  </command>
+
+  <command name="cw.pasteAfterAsParagraphs">
+    <macro>
+      <sequence>
+        <command name="makeParagraphs" parameter="%0"/>
+
+        <command name="paste" parameter="after[implicitElement] %_"/>
+      </sequence>
+    </macro>
+  </command>
+
+  <command name="cw.editLinkedDocument">
+    <macro>
+      <sequence>
+        <get expression="resolve-uri('%0')"/>
+
+        <command name="XXE.edit" parameter="%_"/>
+      </sequence>
+    </macro>
+  </command>
+
+  <command name="cw.selectLinkedDocument">
+    <macro>
+      <sequence>
+        <command name="selectFile" parameter="[Link to Document] openFile %d"/>
+
+        <command name="cw.linkDocument" parameter="%0 %_"/>
+      </sequence>
+    </macro>
+  </command>
+
+  <command name="cw.linkDocument">
+    <macro>
+      <sequence>
+        <get expression="relativize-uri(resolve-uri('%1'))"/>
+
+        <command name="putAttribute" parameter="%0 %_"/>
+      </sequence>
+    </macro>
+  </command>
+
+  <!-- Bindings -->
+
+  <binding>
+    <keyPressed code="UP" modifiers="alt shift"/>
+
+    <command name="moveElement" parameter="up"/>
+  </binding>
+
+  <binding>
+    <keyPressed code="DOWN" modifiers="alt shift"/>
+
+    <command name="moveElement" parameter="down"/>
+  </binding>
+
+  <binding>
+    <keyPressed code="ENTER"/>
+
+    <command name="cw.splitOrInsertNewLine"/>
+  </binding>
+
+  <binding>
+    <keyPressed code="DELETE"/>
+
+    <command name="cw.joinOrDeleteChar"/>
+  </binding>
+
+  <binding>
+    <keyPressed code="BACK_SPACE"/>
+
+    <command name="cw.joinOrDeleteChar" parameter="backwards"/>
+  </binding>
+
+  <binding>
+    <keyPressed code="ENTER" modifiers="mod"/>
+
+    <command name="cw.addSame" parameter="After"/>
+  </binding>
+
+  <binding>
+    <keyPressed code="ENTER" modifiers="mod shift"/>
+
+    <command name="cw.addSame" parameter="Before"/>
+  </binding>
+
+  <binding>
+    <keyPressed code="ESCAPE"/>
+
+    <charTyped char="w"/>
+
+    <command name="cw.pasteAfterAsParagraphs" parameter="para"/>
+  </binding>
+
+  <!-- Element templates -->
+
+  <elementTemplate name="with-visual" selectable="override">
+    <slide xmlns="">
+		<title/>
+		<visual/>
+		<notes>
+		  <student>
+		    <para/>
+		  </student>
+		  <presenter>
+		    <para/>
+		  </presenter>
+		</notes>
+	  </slide>
+  </elementTemplate>
+
+  <elementTemplate name="with-text" selectable="override">
+    <slide xmlns="">
+		<title/>
+		<vml/>
+		<notes>
+		  <student>
+		    <para/>
+		  </student>
+		  <presenter>
+		    <para/>
+		  </presenter>
+		</notes>
+	  </slide>
+  </elementTemplate>
+</configuration>

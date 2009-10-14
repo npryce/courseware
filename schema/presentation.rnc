@@ -1,0 +1,69 @@
+namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+
+presentation = element presentation {
+   attribute status {"incomplete" | "draft" | "ready"},
+   title,
+   (slide|exercise)+
+}
+
+slide = element slide {
+   title, (visual | vml), 
+   
+   element notes {
+      element student { block* },
+      element presenter { block* }
+   }
+}
+
+exercise = element exercise {
+	fileref
+}
+
+visual = element visual {
+      [a:defaultValue = "black"]
+      attribute bg { text }?,
+	  fileref,
+      copyright?,
+      license?
+}
+
+step = element step { para+ }
+
+vml = element vml { block* } 
+
+block = (para | itemizedlist | orderedlist | termlist | programlisting)
+
+inline = ((emphasis | link | code)? | text)*
+
+para = element para { inline }
+
+itemizedlist = element itemizedlist {listitem+}
+
+orderedlist = element orderedlist {listitem+}
+
+listitem = element listitem {block+}
+
+termlist = element termlist {termlistitem+}
+
+termlistitem = element termlistitem {
+	element term {inline+},
+	element definition {block+}
+}
+
+programlisting = element programlisting {
+   attribute xml:space { "preserve" } ,
+   attribute lang { text },
+   inline
+}
+
+link = element link {
+   attribute href { text },
+   inline
+}
+
+emphasis = element emphasis {
+	attribute role { text }? ,
+	inline
+}
+
+code = element code {inline}

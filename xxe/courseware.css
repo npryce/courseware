@@ -1,0 +1,374 @@
+@use-default-attribute-values;
+
+section {
+    display: block;
+	margin: 1em;
+	background-color: white;
+}
+
+presentation:root {
+    display: block;
+	margin: 1em;
+	background-color: white;
+}
+
+title {
+	display: block;
+	font-size: 32pt;
+	font-weight: bold;
+	text-align: center;
+	margin-bottom: 0.5em;
+}
+
+presentation[status="incomplete"]>title:after {
+    content: "Status: Incomplete";
+}
+
+presentation[status="draft"]>title:after {
+    content: "Status: Draft";
+}
+
+presentation>title:after {
+    display: block;
+    font-size: 28pt;
+    font-weight: normal;
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 0.5em;
+}
+
+slide {
+	display: table;
+	vertical-align: top;
+    border-spacing: 0.5em;
+}
+
+slide title {
+    display: table-cell;
+	column-span: 2;
+    font-size: 24pt;
+    text-align: left;
+	padding-bottom: 0.5em;
+}
+
+visual:before {
+	content: cell(
+				image-viewport(
+					attribute, fileref,
+					data-type, anyURI,
+					viewport-width, 240px,
+					viewport-height, 180px,
+					content-width, 240max,
+					content-height, 180max,
+					preserve-aspect-ratio, true,
+					smooth, true,
+					border-width, 1px,
+					border-color, #cccccc,
+					horizontal-align, center,
+					vertical-align, top,
+					background-color, attr(bg)));
+}
+
+visual {
+	display: table-cell;
+    column-span: 2;
+	vertical-align: top;
+}
+
+vml {
+	display: block;
+	border-width: 1px;
+	border-color: #cccccc;
+}
+
+slide:after, presentation exercise:after {
+	display: block;
+	content: 
+        command-button(icon, url(new-image-slide.png),
+                       tool-tip, "Insert new graphical slide",
+                       command, "insert",
+                       parameter, "after[implicitElement] #template(slide,with-visual)"),
+        command-button(icon, url(new-text-slide.png),
+                       tool-tip, "Insert new text slide",
+                       command, "insert",
+                       parameter, "after[implicitElement] #template(slide,with-text)"),
+        command-button(icon, url(new-exercise-link.png),
+                       tool-tip, "Insert new exercise",
+                       command, "insert",
+                       parameter, "after[implicitElement] exercise");
+	
+	margin-bottom: 1em;
+	margin-top: 1em;
+}
+
+presentation exercise {
+    display: block;
+	content: "Exercise: ", 
+		file-name-field(
+			attribute, fileref,
+			absolute, no,
+			url, yes,
+			directory, no),
+		command-button(
+			text, "Edit",
+			command, "cw.editLinkedDocument",
+			select, none
+		);
+	padding: 0.25em;
+    margin-bottom: 1em;
+}
+
+notes {
+    display: table-row;
+	padding-top: 0.5em;
+}
+
+notes>*:before {
+	display: block;
+    font-size: 14pt;
+	font-weight: bold;
+	margin-bottom: 0.2em;
+}
+
+student:before {
+	content: "Student Notes";
+}
+
+presenter:before {
+	content: "Presenter Notes";
+}
+
+notes > * {
+    display: table-cell;
+	width: 50%;
+}
+
+para {
+	display: block;
+	margin-bottom: 0.2em;
+	margin-top: 0.2em;
+}
+
+emphasis {
+    display: inline;
+    font-family: inherit;
+    font-style: italic;
+}
+
+emphasis[role=strong] {
+    display: inline;
+    font-family: inherit;
+    font-weight: bold;
+    font-style: normal; 
+}
+
+code {
+     display: inline;
+     font-family: monospace;
+     font-weight: inherit;
+     font-style: inherit;
+}
+
+programlisting {
+     display: block;
+     white-space: pre;
+     font-family: monospace;
+     margin: 1.33ex 0;
+     background-color: #EEEEEE; 
+     border: thin solid gray; 
+     padding: 2px; 
+     
+}
+
+orderedlist {
+	display: block;
+	list-style-type: decimal;
+}
+
+itemizedlist {
+	display: block;
+	list-style-type: disc;
+}
+
+listitem {
+   	display: list-item;
+}
+
+termlist {
+	display: block;
+	list-style-type: disc;
+}
+
+termlistitem {
+	display: list-item;
+}
+
+term {
+	display: inline;
+	font-weight: bold;
+}
+
+term:after {
+	content: ": ";
+}
+
+description {
+	display: block;
+}
+
+copyright {
+	display: block;
+}
+
+copyright:before {
+	content: "Copyright © ";
+}
+
+visual copyright:before {
+    content: "Image copyright © ";
+}
+
+copyright holder:before {
+    content: " ";
+}
+
+license {
+	display: block;
+}
+
+license:before {
+	content: "License: ";
+}
+
+
+/*--------------------------
+ * Course stuff
+ */
+
+unit {
+	display: block;
+}
+
+course copyright {
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+course author {
+    display: block;
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+personname {
+	display: block;
+}
+
+email {
+    display: block;
+}
+
+firstname {
+	display: inline;
+}
+
+surname {
+	display: inline;
+}
+
+surname:before {
+    content: " ";
+}
+
+unit title {
+    display: block;
+    text-align: left;
+    font-size: 150%;
+	margin-top: 1em;
+}
+
+course exercise:before, course presentation {
+    display: block;
+	content: 
+		division(
+			content(
+				paragraph(
+					content(
+						element-label(), ": ",
+						command-button(
+							text, xpath("document(@fileref)//title[1]"),
+							command, "cw.editLinkedDocument",
+							parameter, attr(fileref)
+							tool-tip, "Open the linked document for editing",
+							text-decoration, underline
+						)
+					),
+					margin-left, 0,
+					margin-right, 0,
+					margin-top, 1em,
+					margin-bottom, 0.1em,
+					font-size, 125%,
+					font-weight, normal
+				),
+				paragraph(
+					content(
+						command-button(
+							icon, url(link.png),
+							command, "cw.selectLinkedDocument",
+							parameter, fileref,
+							tool-tip, "Link to a document"
+						),
+						drop-site(
+							text, attr(fileref),
+							command, "cw.linkDocument",
+							parameter, "fileref %{url}",
+							tool-tip, "Drop a file here to link to a document"
+						)
+					)
+				)
+			)
+		);
+}
+
+course exercise {
+	display: block;
+}
+
+course exercise:empty {
+	content: insert-button();
+}
+
+course exercise handout {
+	display: block;
+	content: paragraph(
+					content(
+						"Handout: ",
+						command-button(
+							icon, url(open.png),
+							command, "cw.editLinkedDocument",
+							parameter, attr(fileref),
+							select, no,
+							tool-tip, "Open the linked document for editing"
+						),
+						command-button(
+							icon, url(link.png),
+							command, "cw.selectLinkedDocument",
+							parameter, fileref,
+							tool-tip, "Link to a document"
+						),
+						drop-site(
+							text, attr(fileref),
+							command, "cw.linkDocument",
+							parameter, "fileref %{url}",
+							tool-tip, "Drop a file here to link to a document"
+						)
+					),
+					padding-bottom, 0.1em
+				)
+}
+
+course exercise handout:last-of-type:after {
+	display: block;
+	content: insert-same-after-button();
+}
+

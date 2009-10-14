@@ -1,0 +1,24 @@
+namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+
+course = element course {
+    title, copyright?, author*, unit*
+}
+
+unit = element unit {
+	element title {text},
+	(presentationref | exerciseref)+
+}
+
+presentationref = element presentation {
+	fileref	
+}
+
+exerciseref = element exercise {
+	fileref?,
+	handout*
+}
+
+handout = element handout {
+	fileref
+}
+

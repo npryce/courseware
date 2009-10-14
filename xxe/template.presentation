@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<presentation status="incomplete">
+  <title>Presentation Title</title>
+  
+  <slide>
+    <title>First Slide</title>
+    <visual/>
+    <notes>
+      <student>
+	<para>Student notes go here.</para>
+	<para>If there are no student notes, use the presenter notes for students.</para>
+	<para>and vice versa if there are no presenter notes.</para>
+      </student>
+      <presenter>
+	<para>Presenter notes go here.</para>
+      </presenter>
+    </notes>
+  </slide>
+  
+  <slide>
+    <title>Another Slide</title>
+    <visual/>
+    
+    <notes>
+      <student>
+      </student>
+      <presenter>
+	<para>This slide has no student notes</para>
+      </presenter>
+    </notes>
+  </slide>
+  
+  <slide>
+    <title>And Another Slide</title>
+    <visual/>
+    
+    <notes>
+      <student>
+	<para>This slide has no presenter notes</para>
+      </student>
+      <presenter>
+      </presenter>
+    </notes>
+  </slide>
+</presentation>
