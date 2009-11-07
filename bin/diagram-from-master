@@ -1,0 +1,9 @@
+#!/bin/bash
+
+basedir=$(dirname $0)
+transform=$basedir/../xslt/svg/diagram-from-master.xslt
+master=${1:?master not specified}
+step=${2:?step not specified}
+
+xsltproc --param step $step $transform $master
+

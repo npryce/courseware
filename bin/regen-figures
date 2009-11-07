@@ -1,0 +1,23 @@
+#!/bin/bash
+
+basedir=$(dirname $0)
+master=${1:?master-file not given}
+outdir=${2:?output directory not given}
+
+step_file="$(dirname $master)/$(basename $master .svg).steps"
+
+if [ -z $step_file ]
+then
+    echo "no steps defined for master-file $master"
+    exit 1
+fi
+
+step=1
+for f in $(cat $step_file)
+do
+    figure=$outdir/$f
+    echo step $step: $figure
+    $basedir/diagram-from-master $master $step > $figure
+    step=$(($step + 1))
+done
+
