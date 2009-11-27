@@ -1,0 +1,11 @@
+#!/bin/bash
+
+master=${1:?master-file not given}
+outdir=${2:?output directory not given}
+
+step_file="$(dirname $master)/$(basename $master .svg).steps"
+
+for step in $(cat $step_file)
+do
+	echo $outdir/$step: $master $step_file
+done
