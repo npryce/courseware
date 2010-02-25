@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format">
-	<xsl:output method="xml" indent="yes"/>
+	<xsl:output method="xml" indent="no"/>
 	<xsl:param name="timestamp"/>
 	<xsl:param name="build"/>
 	<xsl:param name="courseCode"/>
@@ -19,7 +19,7 @@
 		</xsl:call-template>
 	</xsl:variable>
 	
-	<xsl:template match="presentation">
+	<xsl:template match="/presentation">
 		<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
 			<xsl:call-template name="create-slide-layout"/>
 			<xsl:call-template name="create-bookmarks"/>
