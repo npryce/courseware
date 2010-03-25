@@ -27,10 +27,7 @@
      </xsl:call-template>
     </xsl:variable>
     
-    <xsl:message>group=<xsl:value-of select="@inkscape:label"/>: minStep=<xsl:value-of select="$minStep"/>, maxStep=<xsl:value-of select="$maxStep"/></xsl:message>
-    
     <xsl:if test="$minStep &lt;= $step and $step &lt;= $maxStep">
-     <xsl:message>    INCLUDED!</xsl:message>
      <g>
       <xsl:apply-templates select="@*[name()!='style']"/>
       <xsl:attribute name="style">display: inline;</xsl:attribute>

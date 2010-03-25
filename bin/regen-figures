@@ -16,7 +16,7 @@ step=1
 for f in $(cat $step_file)
 do
     figure=$outdir/$f
-    echo step $step: $figure
+    #echo step $step: $figure
     $basedir/diagram-from-master $master $step > $figure
     step=$(($step + 1))
 done
