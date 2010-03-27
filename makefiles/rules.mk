@@ -41,14 +41,16 @@ $(OUTDIR)/fo/%-slides.fo: $(SRCDIR)/%.presentation
 	@mkdir -p $(dir $@)
 	saxon -xsl:$(COURSEWARE_HOME)/xslt/slides/single-slides-to-fo.xsl -s:$< > $@
 
+$(OUTDIR)/fo/%-student-notes.fo: NOTES_FORMAT=Student
+$(OUTDIR)/fo/%-presenter-notes.fo: NOTES_FORMAT=Presenter
 $(OUTDIR)/fo/%-student-notes.fo $(OUTDIR)/fo/%-presenter-notes.fo: $(SRCDIR)/%.presentation
 	@mkdir -p $(dir $@)
-	saxon -xsl:$(COURSEWARE_HOME)/xslt/notes/single-notes-to-fo.xsl -s:$< > $@
+	saxon -xsl:$(COURSEWARE_HOME)/xslt/notes/single-notes-to-fo.xsl -s:$< format=$(NOTES_FORMAT) > $@
 
 clean:
 	rm -rf $(OUTDIR)/
 
 again: clean all
 
-.PHONY: clean again all notes student-notes presenter-notes
+.PHONY: all notes student-notes presenter-notes clean again
 
