@@ -28,9 +28,20 @@ SLIDES=$(PRESENTATIONS:%=$(OUTDIR)/pdf/%-slides.pdf)
 FIGURES?=*.svg #TODO compute dependencies by walking XML files
 
 all: slides student-notes presenter-notes
-slides: $(SLIDES) 
-student-notes: $(STUDENT_NOTES) 
+slides: $(SLIDES)
+student-notes: $(STUDENT_NOTES)
 presenter-notes: $(PRESENTER_NOTES)
+
+TIMESTAMP=$(shell date)
+BUILD?=n/a
+VERSION?=latest-$(shell git branch | cut -c 3-)
+
+NOTES_PARAMS=timestamp="$(TIMESTAMP)" \
+             build="$(BUILD)" \
+             courseCode="$*" \
+             version="$(VERSION)"
+             
+SAXON=$(COURSEWARE_HOME)/bin/saxon
 
 $(OUTDIR)/pdf/%.pdf: $(OUTDIR)/fo/%.fo $(FIGURES)
 	@mkdir -p $(dir $@)
@@ -39,15 +50,15 @@ $(OUTDIR)/pdf/%.pdf: $(OUTDIR)/fo/%.fo $(FIGURES)
 
 $(OUTDIR)/fo/%-slides.fo: $(SRCDIR)/%.presentation
 	@mkdir -p $(dir $@)
-	saxon -xsl:$(COURSEWARE_HOME)/xslt/slides/single-slides-to-fo.xsl -s:$< > $@
+	$(SAXON) -xsl:$(COURSEWARE_HOME)/xslt/slides/single-slides-to-fo.xsl -s:$< > $@
 
 $(OUTDIR)/fo/%-student-notes.fo: $(SRCDIR)/%.presentation
 	@mkdir -p $(dir $@)
-	saxon -xsl:$(COURSEWARE_HOME)/xslt/notes/single-notes-to-fo.xsl -s:$< format=Student > $@
+	$(SAXON) -xsl:$(COURSEWARE_HOME)/xslt/notes/single-notes-to-fo.xsl -s:$< $(NOTES_PARAMS) format=Student > $@
 
 $(OUTDIR)/fo/%-presenter-notes.fo: $(SRCDIR)/%.presentation
 	@mkdir -p $(dir $@)
-	saxon -xsl:$(COURSEWARE_HOME)/xslt/notes/single-notes-to-fo.xsl -s:$< format=Presenter > $@
+	$(SAXON) -xsl:$(COURSEWARE_HOME)/xslt/notes/single-notes-to-fo.xsl -s:$< $(NOTES_PARAMS) format=Presenter > $@
 
 clean:
 	rm -rf $(OUTDIR)/
