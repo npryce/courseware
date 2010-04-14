@@ -34,7 +34,7 @@ presenter-notes: $(PRESENTER_NOTES)
 
 TIMESTAMP=$(shell date)
 BUILD?=n/a
-VERSION?=latest-$(shell git branch | cut -c 3-)
+VERSION?=$(shell git branch -v | grep "*" | cut -d " " -f 2-3)
 
 NOTES_PARAMS=timestamp="$(TIMESTAMP)" \
              build="$(BUILD)" \
