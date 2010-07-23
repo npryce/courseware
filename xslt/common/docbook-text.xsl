@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:fo="http://www.w3.org/1999/XSL/Format"
-	xmlns:fox="http://xml.apache.org/fop/extensions">
+<xsl:stylesheet version="2.0"
+		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		xmlns:fo="http://www.w3.org/1999/XSL/Format"
+		xmlns:fox="http://xml.apache.org/fop/extensions">
   
   <xsl:template match="para">
     <fo:block space-before="0.5em">
       <xsl:apply-templates />
     </fo:block>
   </xsl:template>
-
+  
   <xsl:template match="programlisting|literallayout">
     <fo:block font-family="Courier, monospace"
 	      font-style="normal"
