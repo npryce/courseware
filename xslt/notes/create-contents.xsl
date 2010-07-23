@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0"
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		xmlns:fn="http://www.w3.org/2005/xpath-functions"
 		xmlns:fo="http://www.w3.org/1999/XSL/Format"
 		xmlns:fox="http://xml.apache.org/fop/extensions">
 
@@ -16,8 +17,10 @@
 		     rule-thickness="0.1pt" />
 	</fo:block>
 	
-	<fo:block font-size="8pt" text-align-last="justify"
-		  start-indent="10pt" end-indent="10pt">
+	<fo:block font-size="8pt" 
+		  text-align-last="justify"
+		  start-indent="10pt" 
+		  end-indent="10pt">
 	  <xsl:value-of select="$copyright" />
 	  <fo:leader leader-pattern="space" />
 	  Page
@@ -31,8 +34,10 @@
 		     rule-thickness="0.1pt" />
 	</fo:block>
 	
-	<fo:block font-size="8pt" text-align-last="justify"
-		  start-indent="10pt" end-indent="10pt">
+	<fo:block font-size="8pt" 
+		  text-align-last="justify"
+		  start-indent="10pt" 
+		  end-indent="10pt">
 	  Page
 	  <fo:page-number />
 	  <fo:leader leader-pattern="space" />

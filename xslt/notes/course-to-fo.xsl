@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0"
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		xmlns:fn="http://www.w3.org/2005/xpath-functions"
 		xmlns:fo="http://www.w3.org/1999/XSL/Format">
   
   <xsl:param name="timestamp" />
@@ -39,28 +40,35 @@
   </xsl:template>
   
   <xsl:template match="unit">
-    <fo:block id="{generate-id()}" font-size="24pt"
-	      break-before="page" space-before="72pt"
+    <fo:block id="{fn:generate-id()}" 
+	      font-size="24pt"
+	      break-before="page" 
+	      space-before="72pt"
 	      space-before.conditionality="retain">
       <fo:block>
 	<xsl:value-of
-	    select='concat("Unit ",1 + count(preceding-sibling::unit))' />
+	    select='fn:concat("Unit ",1 + fn:count(preceding-sibling::unit))' />
       </fo:block>
+      
       <fo:block font-weight="bold" space-before="1em">
 	<xsl:value-of select="title"/>
       </fo:block>
+      
       <xsl:for-each select="exercise|presentation">
-	<fo:block start-indent="2em" font-size="20pt"
-		  space-before="1em" space-before.conditionality="retain"
+	<fo:block start-indent="2em" 
+		  font-size="20pt"
+		  space-before="1em" 
+		  space-before.conditionality="retain"
 		  font-weight="normal">
 	  <xsl:value-of
-	      select='concat(position(), ". ",document(@fileref)/*/title)' />
+	      select='fn:concat(fn:position(), ". ",fn:document(@fileref,.)/*/title)' />
 	</fo:block>
       </xsl:for-each>
     </fo:block>
+    
     <fo:block>
       <xsl:for-each select="exercise|presentation">
-	<xsl:apply-templates select="document(@fileref)" />
+	<xsl:apply-templates select="document(@fileref,.)" />
       </xsl:for-each>
     </fo:block>
   </xsl:template>
@@ -71,6 +79,6 @@
   <xsl:template match="article" />
   
   <xsl:template match="exercise">
-    <xsl:apply-templates select="document(@fileref)/article/section"/>
+    <xsl:apply-templates select="document(@fileref,.)/article/section"/>
   </xsl:template>
 </xsl:stylesheet>

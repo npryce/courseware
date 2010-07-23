@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0"
-   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-   xmlns:fo="http://www.w3.org/1999/XSL/Format"
-   xmlns:fox="http://xml.apache.org/fop/extensions">
+		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		xmlns:fn="http://www.w3.org/2005/xpath-functions"
+		xmlns:fo="http://www.w3.org/1999/XSL/Format"
+		xmlns:fox="http://xml.apache.org/fop/extensions">
   
   <xsl:template match="slide">
     <fo:block break-before="">
@@ -14,27 +15,32 @@
 	  <xsl:attribute name="break-before">page</xsl:attribute>
 	</xsl:otherwise>
       </xsl:choose>
+      
       <fo:block font-size="24pt">
 	<xsl:value-of select="title" />
       </fo:block>
+      
       <fo:block text-align-last="justify" 
 		font-size="1pt" 
 		space-after="14pt" 
 		space-after.conditionality="retain">
 	<fo:leader leader-pattern="rule" rule-thickness="2pt" />
       </fo:block>
+      
       <fo:block>
-	<xsl:if
-	    test="visual and (string-length(visual/@fileref) > 0)">
+	<xsl:if test="visual and (fn:string-length(visual/@fileref) > 0)">
+	  <xsl:variable name="imageurl" select="fn:resolve-uri(visual/@fileref,fn:base-uri())"/>
+	  
 	  <fo:block text-align="center">
 	    <fo:external-graphic 
 		height="120mm"
 		width="185mm"
 		content-height="scale-to-fit"
 		content-width="scale-to-fit"
-		src="url({visual/@fileref})" />
+		src="url({$imageurl})" />
 	  </fo:block>
 	</xsl:if>
+	
 	<xsl:if test="vml">
 	  <fo:block-container height="120mm">
 	    <fo:block space-before="1em"
@@ -44,8 +50,10 @@
 	  </fo:block-container>
 	</xsl:if>
       </fo:block>
+      
       <fo:block>
-	<fo:block text-align-last="justify" font-size="1pt">
+	<fo:block text-align-last="justify" 
+		  font-size="1pt">
 	  <fo:leader leader-pattern="rule"
 		     rule-thickness="0.1pt" />
 	</fo:block>

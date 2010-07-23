@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0"
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		xmlns:fn="http://www.w3.org/2005/xpath-functions"
 		xmlns:fo="http://www.w3.org/1999/XSL/Format">
   
   <xsl:output method="xml" indent="yes" />
@@ -36,7 +37,9 @@
   </xsl:template>
   
   <xsl:template match="articleinfo">    
-    <fo:block font-size="20pt" font-weight="bold" text-align="center">
+    <fo:block font-size="20pt" 
+	      font-weight="bold" 
+	      text-align="center">
       <xsl:value-of select="title"/>
     </fo:block>
     
