@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0"
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+		xmlns:fn="http://www.w3.org/2005/xpath-functions"
 		xmlns:fo="http://www.w3.org/1999/XSL/Format"
 		xmlns:fox="http://xml.apache.org/fop/extensions">
   
@@ -8,14 +9,16 @@
     <!-- depth will be zero if we're a presentation or top-level section -->
     <xsl:variable name="depth" select="count(ancestor::section|ancestor::article)" />
     
-    <fo:block id="{generate-id()}" >
+    <fo:block id="{fn:generate-id()}" >
       <xsl:if test="$depth = 0">
 	<xsl:attribute name="break-before">page</xsl:attribute>
 	<xsl:attribute name="space-before">24pt</xsl:attribute>
 	<xsl:attribute name="space-before.conditionality">retain</xsl:attribute>
       </xsl:if>
       
-      <fo:block font-weight="bold" space-before="1em" keep-with-next="always">
+      <fo:block font-weight="bold" 
+		space-before="1em" 
+		keep-with-next="always">
 	<xsl:attribute name="font-size">
 	  <xsl:choose>
 	    <xsl:when test="$depth  = 0">24</xsl:when>

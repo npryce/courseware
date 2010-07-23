@@ -11,5 +11,5 @@
   <xsl:include href="docbook-lists.xsl" />
   <xsl:include href="docbook-text.xsl" />
   <xsl:include href="docbook-visuals.xsl" />
-   <xsl:include href="docbook-section.xsl" />
+  <xsl:include href="docbook-section.xsl" />
 </xsl:stylesheet>

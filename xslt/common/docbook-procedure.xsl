@@ -5,7 +5,8 @@
 		xmlns:fox="http://xml.apache.org/fop/extensions">
   
   <xsl:template match="procedure">
-    <fo:list-block start-indent="2em" space-before="0.5em"
+    <fo:list-block start-indent="2em" 
+		   space-before="0.5em"
 		   space-before.conditionality="retain"
 		   provisional-distance-between-starts="7mm">
       <xsl:apply-templates />
@@ -16,7 +17,8 @@
     <fo:list-item>
       <fo:list-item-label end-indent="label-end()">
 	<fo:block>
-	  <xsl:number level="multiple" count="step"
+	  <xsl:number level="multiple" 
+		      count="step"
 		      format="1.1.a. " />
 	</fo:block>
       </fo:list-item-label>
@@ -30,8 +32,10 @@
   </xsl:template>
   
   <xsl:template match="substeps">
-    <fo:list-block start-indent="4em" space-before="10pt"
-		   space-after="10pt" space-after.conditionality="retain"
+    <fo:list-block start-indent="4em" 
+		   space-before="10pt"
+		   space-after="10pt" 
+		   space-after.conditionality="retain"
 		   provisional-distance-between-starts="10mm">
       <xsl:apply-templates />
     </fo:list-block>
