@@ -4,7 +4,7 @@
 		xmlns:fo="http://www.w3.org/1999/XSL/Format" 
 		xmlns:fox="http://xml.apache.org/fop/extensions">
   
-  <xsl:output method="xml" indent="no"/>
+  <xsl:output method="xml" indent="yes"/>
   
   <xsl:template name="create-slide-layout">
     <fo:layout-master-set>

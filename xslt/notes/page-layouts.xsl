@@ -6,7 +6,9 @@
   <!-- @author $Author: romilly $ -->
   <!--  @version $Revision: 1.1 $  -->
   <!--  $Date: 2007/11/24 07:47:37 $ -->
-  <xsl:output method="xml" indent="no"/>
+  
+  <xsl:output method="xml" indent="yes"/>
+  
   <xsl:template name="create-page-layouts">
     <fo:layout-master-set>
       <!-- spm for title page-->

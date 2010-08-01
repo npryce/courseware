@@ -3,7 +3,8 @@
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 		xmlns:fo="http://www.w3.org/1999/XSL/Format">
   
-  <xsl:output method="xml" indent="no"/>
+  <xsl:output method="xml" indent="yes"/>
+  
   <xsl:param name="timestamp"/>
   <xsl:param name="build"/>
   <xsl:param name="courseCode"/>
