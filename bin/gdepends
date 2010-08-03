@@ -1,0 +1,33 @@
+#!/bin/sh
+
+basedir=`dirname $0`
+xsltdir=$basedir/../xslt/queries
+
+usage_error() {
+    echo usage: `basename $0` "<outdir>" "<course>..."
+    exit
+}
+
+if [ -z $1 ]
+then
+    usage_error
+fi
+
+outdir=$1
+shift
+courses="$@"
+
+dependencies() {
+    src=$1
+    $basedir/saxon \
+	-xsl:"$xsltdir/depends.xslt" -s:$1 outputDir=$outdir
+}
+
+to_gmake() {
+    $basedir/saxon -xsl:"$xsltdir/depends2make.xslt" -s:-
+}
+
+for course in $courses
+do
+    dependencies $course | to_gmake
+done
