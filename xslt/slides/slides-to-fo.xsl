@@ -79,7 +79,7 @@
     <xsl:apply-templates select="fn:document(@fileref,.)"/>
   </xsl:template>
   
-  <xsl:template match="section|presentation">
+  <xsl:template match="section|presentation[not(@fileref)]">
     <xsl:apply-templates />
   </xsl:template>
   

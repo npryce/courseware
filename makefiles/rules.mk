@@ -40,7 +40,7 @@ NOTES_PARAMS=timestamp="$(TIMESTAMP)" \
              build="$(BUILD)" \
              courseCode="$*" \
              version="$(VERSION)"
-             
+
 SAXON=$(COURSEWARE_HOME)/bin/saxon
 
 $(OUTDIR)/pdf/%.pdf: $(OUTDIR)/fo/%.fo $(FIGURES)
