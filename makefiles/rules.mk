@@ -1,69 +1,110 @@
-# To use this template makefile, define PRESENTATIONS to be a space-separated list of
-# presentation names and then include this file.
-#
-# For example, to build the two presentations ./sheep.presentation and ./cheese.presentation,
-# your Makefile only needs to contain:
-#
-#     PRESENTATIONS=sheep cheese
-#     
-#     include $(COURSEWARE_HOME)/makefiles/rules.mk
-#
-#
-# If you the PDFVIEWER variable to a program that can view PDF files, then it will be used to
-# open PDF files whenever they are built
+# To use this template makefile, define COURSE to be the filename of the course to build
+# and then include this file.
 
-# Optionally, define this variable to specify where the source documents are
-SRCDIR?=.
+
+# Optionally, define this variable to specify the directory containing the course files
+COURSEDIR?=courses
 
 # Optionally, define this variable to specify where the output documents will be built to
-OUTDIR?=build
+OUTDIR?=output
 
-ifndef PRESENTATIONS
-$(error PRESENTATIONS variable not set)
-endif
 
-STUDENT_NOTES=$(PRESENTATIONS:%=$(OUTDIR)/pdf/%-student-notes.pdf)
-PRESENTER_NOTES=$(PRESENTATIONS:%=$(OUTDIR)/pdf/%-presenter-notes.pdf)
-SLIDES=$(PRESENTATIONS:%=$(OUTDIR)/pdf/%-slides.pdf)
-FIGURES?=*.svg #TODO compute dependencies by walking XML files
+XSLT2=$(COURSEWARE_HOME)/bin/saxon
+
+BUILD:=$(shell whoami)@$(shell hostname)
+TIMESTAMP:=$(shell date)
 
 all: slides student-notes presenter-notes
 slides: $(SLIDES)
 student-notes: $(STUDENT_NOTES)
 presenter-notes: $(PRESENTER_NOTES)
 
-TIMESTAMP=$(shell date)
-BUILD?=n/a
-VERSION?=$(shell git branch -v | grep "*" | cut -d " " -f 2-3)
+ifdef COURSEDIR
+# You can predefine this variable to build only a subset of the courses
+COURSES?=$(shell find $(COURSEDIR) -name "*.course")
 
-NOTES_PARAMS=timestamp="$(TIMESTAMP)" \
-             build="$(BUILD)" \
-             courseCode="$*" \
-             version="$(VERSION)"
+SLIDES+=$(COURSES:$(COURSEDIR)/%.course=$(OUTDIR)/pdf/%-slides.pdf)
+STUDENT_NOTES+=$(COURSES:$(COURSEDIR)/%.course=$(OUTDIR)/pdf/%-student-notes.pdf)
+PRESENTER_NOTES+=$(COURSES:$(COURSEDIR)/%.course=$(OUTDIR)/pdf/%-presenter-notes.pdf)
 
-SAXON=$(COURSEWARE_HOME)/bin/saxon
 
-$(OUTDIR)/pdf/%.pdf: $(OUTDIR)/fo/%.fo $(FIGURES)
+$(OUTDIR)/pdf/%.pdf: $(OUTDIR)/fo/%.fo
 	@mkdir -p $(dir $@)
 	fop -fo $< -pdf $@
-	$(if $(PDFVIEWER),$(PDFVIEWER) $@)
 
-$(OUTDIR)/fo/%-slides.fo: $(SRCDIR)/%.presentation
-	@mkdir -p $(dir $@)
-	$(SAXON) -xsl:$(COURSEWARE_HOME)/xslt/slides/single-slides-to-fo.xsl -s:$< > $@
 
-$(OUTDIR)/fo/%-student-notes.fo: $(SRCDIR)/%.presentation
+$(OUTDIR)/fo/%-student-notes.fo: $(COURSEDIR)/%.course
 	@mkdir -p $(dir $@)
-	$(SAXON) -xsl:$(COURSEWARE_HOME)/xslt/notes/single-notes-to-fo.xsl -s:$< $(NOTES_PARAMS) format=Student > $@
+	$(XSLT2) -xsl:$(COURSEWARE_HOME)/xslt/notes/course-to-fo.xsl \
+		-s:$< \
+		timestamp="$(TIMESTAMP)" \
+		build="$(BUILD)" \
+		courseCode=$(shell basename $< .course) \
+		format=Student > $@
 
-$(OUTDIR)/fo/%-presenter-notes.fo: $(SRCDIR)/%.presentation
+$(OUTDIR)/fo/%-presenter-notes.fo: $(COURSEDIR)/%.course
 	@mkdir -p $(dir $@)
-	$(SAXON) -xsl:$(COURSEWARE_HOME)/xslt/notes/single-notes-to-fo.xsl -s:$< $(NOTES_PARAMS) format=Presenter > $@
+	$(XSLT2) -xsl:$(COURSEWARE_HOME)/xslt/notes/course-to-fo.xsl \
+		-s:$< \
+		timestamp="$(TIMESTAMP)" \
+		build="$(BUILD)" \
+		courseCode=$(shell basename $< .course) \
+		format=Presenter > $@
+
+$(OUTDIR)/fo/%-slides.fo: $(COURSEDIR)/%.course
+	@mkdir -p $(dir $@)
+	$(XSLT2) -xsl:$(COURSEWARE_HOME)/xslt/slides/slides-to-fo.xsl \
+		-s:$< \
+		timestamp="$(TIMESTAMP)" \
+		build="$(BUILD)" \
+		courseCode=$(shell basename $< .course) > $@
+endif
+
+
+ifdef PRESENTATIONDIR
+# You can predefine this variable to build only a subset of the presentations
+PRESENTATIONS?=$(shell find $(PRESENTATIONDIR) -name "*.presentation")
+
+SLIDES+=$(PRESENTATIONS:$(PRESENTATIONDIR)/%.presentation=$(OUTDIR)/pdf/%-slides.pdf)
+STUDENT_NOTES+=$(PRESENTATIONS:$(PRESENTATIONDIR)/%.presentation=$(OUTDIR)/pdf/%-student-notes.pdf)
+PRESENTER_NOTES+=$(PRESENTATIONS:$(PRESENTATIONDIR)/%.presentation=$(OUTDIR)/pdf/%-presenter-notes.pdf)
+
+$(OUTDIR)/fo/%-student-notes.fo: $(PRESENTATIONDIR)/%.presentation
+	@mkdir -p $(dir $@)
+	$(XSLT2) -xsl:$(COURSEWARE_HOME)/xslt/notes/single-notes-to-fo.xsl \
+		-s:$< \
+		timestamp="$(TIMESTAMP)" \
+		build="$(BUILD)" \
+		courseCode=$(shell basename $< .presentation) \
+		format=Student > $@
+
+$(OUTDIR)/fo/%-presenter-notes.fo: $(PRESENTATIONDIR)/%.presentation
+	@mkdir -p $(dir $@)
+	$(XSLT2) -xsl:$(COURSEWARE_HOME)/xslt/notes/single-notes-to-fo.xsl \
+		-s:$< \
+		timestamp="$(TIMESTAMP)" \
+		build="$(BUILD)" \
+		courseCode=$(shell basename $< .presentation) \
+		format=Presenter > $@
+
+$(OUTDIR)/fo/%-slides.fo: $(PRESENTATIONDIR)/%.presentation
+	@mkdir -p $(dir $@)
+	$(XSLT2) -xsl:$(COURSEWARE_HOME)/xslt/slides/single-slides-to-fo.xsl \
+		-s:$< \
+		timestamp="$(TIMESTAMP)" \
+		build="$(BUILD)" \
+		courseCode=$(shell basename $< .course) > $@
+endif
 
 clean:
-	rm -rf $(OUTDIR)/
+	rm -rf $(OUTDIR)
 
 again: clean all
 
-.PHONY: all notes student-notes presenter-notes clean again
+list:
+	@echo slides: $(SLIDES)
+	@echo student-notes: $(STUDENT_NOTES)
+	@echo presenter-notes: $(PRESENTER_NOTES)
+
+.PHONY: clean again all slides student-notes presenter-notes list
 
