@@ -15,9 +15,6 @@ BUILD:=$(shell whoami)@$(shell hostname)
 TIMESTAMP:=$(shell date)
 
 all: slides student-notes presenter-notes
-slides: $(SLIDES)
-student-notes: $(STUDENT_NOTES)
-presenter-notes: $(PRESENTER_NOTES)
 
 ifdef COURSEDIR
 # You can predefine this variable to build only a subset of the courses
@@ -26,11 +23,6 @@ COURSES?=$(shell find $(COURSEDIR) -name "*.course")
 SLIDES+=$(COURSES:$(COURSEDIR)/%.course=$(OUTDIR)/pdf/%-slides.pdf)
 STUDENT_NOTES+=$(COURSES:$(COURSEDIR)/%.course=$(OUTDIR)/pdf/%-student-notes.pdf)
 PRESENTER_NOTES+=$(COURSES:$(COURSEDIR)/%.course=$(OUTDIR)/pdf/%-presenter-notes.pdf)
-
-
-$(OUTDIR)/pdf/%.pdf: $(OUTDIR)/fo/%.fo
-	@mkdir -p $(dir $@)
-	fop -fo $< -pdf $@
 
 
 $(OUTDIR)/fo/%-student-notes.fo: $(COURSEDIR)/%.course
@@ -95,6 +87,14 @@ $(OUTDIR)/fo/%-slides.fo: $(PRESENTATIONDIR)/%.presentation
 		build="$(BUILD)" \
 		courseCode=$(shell basename $< .course) > $@
 endif
+
+slides: $(SLIDES)
+student-notes: $(STUDENT_NOTES)
+presenter-notes: $(PRESENTER_NOTES)
+
+$(OUTDIR)/pdf/%.pdf: $(OUTDIR)/fo/%.fo
+	@mkdir -p $(dir $@)
+	fop -fo $< -pdf $@
 
 clean:
 	rm -rf $(OUTDIR)
