@@ -4,7 +4,7 @@ basedir=`dirname $0`
 xsltdir=$basedir/../xslt/queries
 
 usage_error() {
-    echo usage: `basename $0` "<outdir>" "<course>..."
+    echo usage: `basename $0` "<outdir>" "<coursedir>" "<course>..."
     exit
 }
 
@@ -13,14 +13,15 @@ then
     usage_error
 fi
 
-outdir=$1
-shift
+outputdir=`readlink -f $1`
+coursedir=`readlink -f $2`
+shift 2
 courses="$@"
 
 dependencies() {
     src=$1
     $basedir/saxon \
-	-xsl:"$xsltdir/depends.xslt" -s:$1 outputDir=$outdir
+	-xsl:"$xsltdir/depends.xslt" -s:$1 outputDir=$outputdir courseDir=$coursedir
 }
 
 to_gmake() {

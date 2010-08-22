@@ -29,7 +29,7 @@
   <xsl:function name="cw:path-of-uri">
     <xsl:param name="uri"/>
     
-    <xsl:value-of select="concat('/', substring-after($uri,'/'))"/>
+    <xsl:value-of select="substring-after($uri,'file:')"/>
   </xsl:function>
   
   <xsl:function name="cw:ext">

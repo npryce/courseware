@@ -33,6 +33,19 @@
 	  basename of relative file with no extension
 	</test:assert>
       </test:suite>
+
+      <test:suite>
+	The path-of-uri function
+	
+	<test:assert that="cw:path-of-uri('file:/foo/bar/file1.ext')" as="p"
+		     satisfies="$p = '/foo/bar/file1.ext'">
+	  path of file: URI
+	</test:assert>
+	<test:assert that="cw:path-of-uri('http://www.example.com')" as="p"
+		     satisfies="$p = ''">
+	  path of other kind of URI returns an empty string
+	</test:assert>
+      </test:suite>
     </test:suite>
   </xsl:template>
 </xsl:stylesheet>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0"
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-		xmlns:fn="http://www.w3.org/2005/xpath-functions"
 		xmlns:cw="http://www.natpryce.com/courseware/1.0">
   
   <xsl:import href="functions.xslt"/>
@@ -9,51 +8,45 @@
   <xsl:output method="xml" indent="yes"/>
   
   <xsl:param name="outputDir"/>
-  <xsl:param name="courseDir" select="cw:dirname(fn:base-uri())"/>
-  <xsl:param name="courseCode" select="cw:basename(fn:base-uri())"/>
+  <xsl:param name="courseDir"/>
   
-  <xsl:variable name="student-notes-fo"><xsl:value-of 
-    select="$outputDir"/>/fo/<xsl:value-of 
-    select="$courseDir"/>/<xsl:value-of 
-    select="$courseCode"/>-student-notes.fo</xsl:variable>
+  <xsl:variable name="course"
+		select="substring-before(
+			    substring-after(
+			        base-uri(), 
+			        resolve-uri(concat($courseDir, '/'), base-uri())),
+			    '.course')"/>
   
-  <xsl:variable name="student-notes-pdf"><xsl:value-of 
-    select="$outputDir"/>/pdf/<xsl:value-of 
-    select="$courseDir"/>/<xsl:value-of 
-    select="$courseCode"/>-student-notes.pdf</xsl:variable>
+  <xsl:function name="cw:target">
+    <xsl:param name="name"/>
+    <xsl:variable name="format" select="substring-after($name, '.')"/>
+    
+    <xsl:value-of select="concat($outputDir,'/',$format,'/',$course,'-',$name)"/>
+  </xsl:function>
   
-  <xsl:variable name="presenter-notes-fo"><xsl:value-of 
-    select="$outputDir"/>/fo/<xsl:value-of 
-    select="$courseDir"/>/<xsl:value-of 
-    select="$courseCode"/>-presenter-notes.fo</xsl:variable>
-  
-  <xsl:variable name="presenter-notes-pdf"><xsl:value-of 
-    select="$outputDir"/>/pdf/<xsl:value-of 
-    select="$courseDir"/>/<xsl:value-of 
-    select="$courseCode"/>-presenter-notes.pdf</xsl:variable>
-  
-  
-  <xsl:template match="/">
+  <xsl:template match="course">
     <cw:dependencies>
-      <xsl:apply-templates select="course"/>
+      <xsl:apply-templates/>
     </cw:dependencies>
   </xsl:template>
   
   <xsl:template match="presentation[@fileref]|exercise[@fileref]">
-    <xsl:variable name="presentation" select="fn:resolve-uri(@fileref, fn:base-uri())"/>
-    <xsl:variable name="presentation-code" select="cw:basename(@fileref)"/>
+    <xsl:variable name="presentation" select="resolve-uri(@fileref, base-uri())"/>
+    <xsl:variable name="path" select="cw:path-of-uri($presentation)"/>
     
-    <cw:dependency target="{$student-notes-fo}" dependency="{$presentation}"/>
-    <cw:dependency target="{$presenter-notes-fo}" dependency="{$presentation}"/>
+    <cw:dependency target="{cw:target('student-notes.fo')}" dependency="{$path}"/>
+    <cw:dependency target="{cw:target('presenter-notes.fo')}" dependency="{$path}"/>
+    <cw:dependency target="{cw:target('slides.fo')}" dependency="{$path}"/>
     
-    <xsl:apply-templates select="fn:document($presentation)"/>
+    <xsl:apply-templates select="document($presentation)"/>
   </xsl:template>
   
   <xsl:template match="visual[@fileref]">
-    <xsl:variable name="visual" select="fn:resolve-uri(@fileref, fn:base-uri())"/>
+    <xsl:variable name="visual" select="resolve-uri(@fileref, base-uri())"/>
     
-    <cw:dependency target="{$student-notes-pdf}" dependency="{$visual}"/>
-    <cw:dependency target="{presenter-notes-pdf}" dependency="{$visual}"/>
+    <cw:dependency target="{cw:target('student-notes.pdf')}" dependency="{$visual}"/>
+    <cw:dependency target="{cw:target('presenter-notes.pdf')}" dependency="{$visual}"/>
+    <cw:dependency target="{cw:target('slides.pdf')}" dependency="{$visual}"/>
   </xsl:template>
   
   <xsl:template match="*">
