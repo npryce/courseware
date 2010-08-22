@@ -17,7 +17,20 @@ build/xxe/courseware/%: schema/%
 	@mkdir -p $(dir $@)
 	cp $< $@
 
+build/tests.xslt: testing/tests.xslt
+	@mkdir -p $(dir $@)
+	bin/saxon -xsl:xslt/testing/testing.xslt -s:$< -o:$@
+
+build/testing/results.xml: build/tests.xslt $(XSLT)
+	bin/saxon -xsl:$< -it:tests -o:$@
+
+check: build/testing/results.xml
+	bin/saxon -xsl:xslt/testing/test-abort-build.xslt -s:$<
+
 clean:
 	rm -rf build
 
 again: clean all
+
+.PHONY: all check clean again
+
