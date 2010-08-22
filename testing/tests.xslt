@@ -17,7 +17,7 @@
 	The basename function
 	
 	<test:assert that="cw:basename('/foo/bar/file1.ext')" as="b"
-		     satisfies="$b = 'file1xxx'">
+		     satisfies="$b = 'file1'">
 	  basename of absolute file
 	</test:assert>
 	<test:assert that="cw:basename('/foo/bar/file2.ext')" as="b"
