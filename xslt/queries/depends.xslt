@@ -43,10 +43,11 @@
   
   <xsl:template match="visual[@fileref]">
     <xsl:variable name="visual" select="resolve-uri(@fileref, base-uri())"/>
+    <xsl:variable name="path" select="cw:path-of-uri($visual)"/>
     
-    <cw:dependency target="{cw:target('student-notes.pdf')}" dependency="{$visual}"/>
-    <cw:dependency target="{cw:target('presenter-notes.pdf')}" dependency="{$visual}"/>
-    <cw:dependency target="{cw:target('slides.pdf')}" dependency="{$visual}"/>
+    <cw:dependency target="{cw:target('student-notes.pdf')}" dependency="{$path}"/>
+    <cw:dependency target="{cw:target('presenter-notes.pdf')}" dependency="{$path}"/>
+    <cw:dependency target="{cw:target('slides.pdf')}" dependency="{$path}"/>
   </xsl:template>
   
   <xsl:template match="*">

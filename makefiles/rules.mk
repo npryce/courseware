@@ -50,6 +50,12 @@ $(OUTDIR)/fo/%-slides.fo: $(COURSEDIR)/%.course
 		timestamp="$(TIMESTAMP)" \
 		build="$(BUILD)" \
 		courseCode=$(shell basename $< .course) > $@
+
+$(OUTDIR)/course-depends.mk: $(COURSES)
+	$(COURSEWARE_HOME)/bin/depends $(OUTDIR) $(COURSEDIR) $(COURSES) > $@
+
+include $(OUTDIR)/course-depends.mk
+
 endif
 
 

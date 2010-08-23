@@ -24,8 +24,11 @@ build/tests.xslt: testing/tests.xslt
 build/testing/results.xml: build/tests.xslt $(XSLT)
 	bin/saxon -xsl:$< -it:tests -o:$@
 
-check: build/testing/results.xml
-	bin/saxon -xsl:xslt/testing/test-abort-build.xslt -s:$<
+build/testing/report.html: build/testing/results.xml
+	bin/saxon -xsl:xslt/testing/report.xslt -s:$< -o:$@
+
+check: build/testing/report.html
+	bin/saxon -xsl:xslt/testing/test-abort-build.xslt -s:build/testing/results.xml
 
 clean:
 	rm -rf build
