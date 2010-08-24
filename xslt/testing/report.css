@@ -11,4 +11,8 @@
 .xmlverb-pi-name          { color: #006600; font-style: italic }
 .xmlverb-pi-content       { color: #006666; font-style: italic }
 
-.failed                   { background-color: red; }
+.failed                   { background-color: #ffaaaa; }
+.passed                   { background-color: #aaffaa; }
+.assert                   { padding: 0.2em;
+			    margin-left: 3em; 
+			    margin-right: 3em; }

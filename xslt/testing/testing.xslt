@@ -8,24 +8,26 @@
   <xsl:namespace-alias stylesheet-prefix="xslo" result-prefix="xsl"/>
   
   <xsl:template match="test:assert">
-    <xslo:variable name="{@as}" select="{@that}"/>
-    
     <test:assert>
       <xsl:apply-templates select="@*"/>
       
       <xslo:attribute name="result">
 	<xslo:choose>
-	  <xslo:when test="{@satisfies}">passed</xslo:when>
+	  <xslo:when test="{@that}">passed</xslo:when>
 	  <xslo:otherwise>failed</xslo:otherwise>
 	</xslo:choose>
       </xslo:attribute>
       
       <xsl:apply-templates/>
-      
-      <xslo:if test="not({@satisfies})">
-	<test:actual><xslo:copy-of select="{@that}"/></test:actual>
-      </xslo:if>
     </test:assert>
+  </xsl:template>
+  
+  <xsl:template match="xsl:variable">
+    <xsl:copy-of select="."/>
+    <test:fixture name="{@name}">
+      <test:definition><xsl:copy-of select="@select|*|text()"/></test:definition>
+      <test:value><xslo:copy-of select="${@name}"/></test:value>
+    </test:fixture>
   </xsl:template>
   
   <xsl:template match="@*|node()">

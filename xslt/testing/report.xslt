@@ -24,6 +24,12 @@
       <body>
 	<h1><xsl:copy-of select="$title"/></h1>
 	
+	<p class="summary">
+	  <xsl:value-of select="count(//test:assert)"/> tests:
+	  <xsl:value-of select="count(//test:assert[@result='passed'])"/> passed,
+	  <xsl:value-of select="count(//test:assert[@result='failed'])"/> failed.
+	</p>
+	
 	<xsl:apply-templates/>
       </body>
     </html>
@@ -35,20 +41,42 @@
     </div>
   </xsl:template>
   
+  <xsl:template match="test:fixture">
+    <div class="fixture">
+      <p>
+	<span class="name"><xsl:value-of select="@name"/></span>
+	<xsl:apply-templates select="test:definition"/>
+	&#8594;
+	<xsl:apply-templates select="test:value"/>
+      </p>
+    </div>
+  </xsl:template>
+
+  <xsl:template match="test:definition[@select]">
+    = <xsl:value-of select="@select"/>
+  </xsl:template>
+  
+  <xsl:template match="test:definition[not(@select)]">
+    <span class="inlineDefinition">
+      <xsl:apply-templates mode="xmlverb"/>
+    </span>
+  </xsl:template>
+  
+  <xsl:template match="test:value">
+    <span class="inlineDefinition">
+      <xsl:apply-templates mode="xmlverb"/>
+    </span>
+  </xsl:template>
+  
   <xsl:template match="test:assert">
     <div class="assert {@result}">
-      <xsl:apply-templates select="* except test:actual"/>
-      <p class="expected">
-	<xsl:value-of select="@as"/> = <xsl:value-of select="@that"/> &#8594;
-	<xsl:value-of select="@satisfies"/>
-      </p>
-      <xsl:apply-templates select="test:actual"/>
+      <xsl:value-of select="@that"/>
     </div>
   </xsl:template>
   
-  <xsl:template match="test:actual">
-    <p class="actual">
-      Actual: <xsl:apply-templates mode="xmlverb"/>
-    </p>
+  <xsl:template match="@*|node()">
+    <xsl:copy>
+      <xsl:apply-templates select="@*|node()"/>
+    </xsl:copy>
   </xsl:template>
 </xsl:stylesheet>

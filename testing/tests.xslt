@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0"
+		xmlns="http://www.w3.org/1999/xhtml"
 		xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 		xmlns:fn="http://www.w3.org/2005/xpath-functions"
 		xmlns:cw="http://www.natpryce.com/courseware/1.0"
@@ -11,38 +12,41 @@
   
   <xsl:template name="tests">
     <test:suite>
-      Custom functions
+      <h2>Custom functions</h2>
       
       <test:suite>
-	The basename function
+	<h3>The basename function</h3>
 	
-	<test:assert that="cw:basename('/foo/bar/file1.ext')" as="b"
-		     satisfies="$b = 'file1-xxx'">
+	<xsl:variable name="b1" select="cw:basename('/foo/bar/file1.ext')"/>
+	<test:assert that="$b1 = 'file1'">
 	  basename of absolute file
 	</test:assert>
-	<test:assert that="cw:basename('/foo/bar/file2.ext')" as="b"
-		     satisfies="$b = 'file2'">
+	
+	<xsl:variable name="b2" select="cw:basename('foo/bar/file2.ext')"/>
+	<test:assert that="$b2 = 'file2'">
 	  basename of relative file
 	</test:assert>
-	<test:assert that="cw:basename('/foo/bar/file3.ext')" as="b"
-		     satisfies="$b = 'file3'">
+	
+	<xsl:variable name="b3" select="cw:basename('/foo/bar/file3.ext')"/>
+	<test:assert that="$b3 = 'file3'">
 	  basename of absolute file with no extension
 	</test:assert>
-	<test:assert that="cw:basename('foo/bar/file4')" as="b"
-		     satisfies="$b = 'file4'">
+	
+	<xsl:variable name="b4" select="cw:basename('foo/bar/file4')"/>
+	<test:assert that="$b4 = 'file4'">
 	  basename of relative file with no extension
 	</test:assert>
       </test:suite>
-
+      
       <test:suite>
-	The path-of-uri function
-	
-	<test:assert that="cw:path-of-uri('file:/foo/bar/file1.ext')" as="p"
-		     satisfies="$p = '/foo/bar/file1.ext'">
+	<h3>The path-of-uri function</h3>
+	<xsl:variable name="p1" select="cw:path-of-uri('file:/foo/bar/file1.ext')"/>
+	<test:assert that="$p1 = '/foo/bar/file1.ext'">
 	  path of file: URI
 	</test:assert>
-	<test:assert that="cw:path-of-uri('http://www.example.com')" as="p"
-		     satisfies="$p = ''">
+	
+	<xsl:variable name="p2" select="cw:path-of-uri('http://www.example.com')"/>
+	<test:assert that="$p2 = ''">
 	  path of other kind of URI returns an empty string
 	</test:assert>
       </test:suite>
