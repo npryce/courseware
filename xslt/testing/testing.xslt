@@ -7,6 +7,10 @@
   <xsl:output method="xml" indent="yes"/>
   <xsl:namespace-alias stylesheet-prefix="xslo" result-prefix="xsl"/>
   
+  <xsl:template match="xsl:import">
+    <xslo:import href="{resolve-uri(@href, base-uri())}"/>
+  </xsl:template>
+  
   <xsl:template match="test:assert">
     <test:assert>
       <xsl:apply-templates select="@*"/>

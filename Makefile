@@ -17,11 +17,11 @@ build/xxe/courseware/%: schema/%
 	@mkdir -p $(dir $@)
 	cp $< $@
 
-build/tests.xslt: testing/tests.xslt
+build/testing/tests.xslt: testing/tests.xslt
 	@mkdir -p $(dir $@)
 	bin/saxon -xsl:xslt/testing/testing.xslt -s:$< -o:$@
 
-build/testing/results.xml: build/tests.xslt $(XSLT)
+build/testing/results.xml: build/testing/tests.xslt $(XSLT)
 	bin/saxon -xsl:$< -it:tests -o:$@
 
 build/testing/report.html: build/testing/results.xml
