@@ -16,3 +16,6 @@
 .assert                   { padding: 0.2em;
 			    margin-left: 3em; 
 			    margin-right: 3em; }
+.inlineDefinition         { border: 1px solid #aaaaff; 
+			    padding: 0.1em;
+			    background-color: #ddddff; }
