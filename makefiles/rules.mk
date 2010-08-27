@@ -52,6 +52,7 @@ $(OUTDIR)/fo/%-slides.fo: $(COURSEDIR)/%.course
 		courseCode=$(shell basename $< .course) > $@
 
 $(OUTDIR)/course-depends.mk: $(COURSES)
+	@mkdir -p $(dir $@)
 	$(COURSEWARE_HOME)/bin/depends $(OUTDIR) $(COURSEDIR) $(COURSES) > $@
 
 include $(OUTDIR)/course-depends.mk
