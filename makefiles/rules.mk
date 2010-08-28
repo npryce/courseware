@@ -53,7 +53,10 @@ $(OUTDIR)/fo/%-slides.fo: $(COURSEDIR)/%.course
 
 $(OUTDIR)/course-depends.mk: $(COURSES)
 	@mkdir -p $(dir $@)
-	$(COURSEWARE_HOME)/bin/depends $(OUTDIR) $(COURSEDIR) $(COURSES) > $@
+	$(COURSEWARE_HOME)/bin/depends \
+		$(abspath $(OUTDIR)) \
+		$(abspath $(COURSEDIR)) \
+		$(foreach c,$(COURSES),$(abspath $c)) > $@
 
 include $(OUTDIR)/course-depends.mk
 
