@@ -5,6 +5,7 @@ xsltdir=$basedir/../xslt/queries
 
 usage_error() {
     echo usage: `basename $0` "<outdir>" "<coursedir>" "<course>..."
+    echo all arguments must be absolute paths!
     exit
 }
 
@@ -13,8 +14,6 @@ then
     usage_error
 fi
 
-outputdir=`readlink -f $1`
-coursedir=`readlink -f $2`
 shift 2
 courses="$@"
 
