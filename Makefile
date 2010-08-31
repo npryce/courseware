@@ -7,7 +7,7 @@ XXE:=$(shell find xxe/*)
 all: build/xxe/courseware-xxe-config.zip
 
 build/xxe/courseware-xxe-config.zip: $(SCHEMA:schema/%=build/xxe/courseware/%) $(XXE:xxe/%=build/xxe/courseware/%)
-	zip $@ $^
+	(cd build/xxe && zip -r $(abspath $@) courseware)
 
 build/xxe/courseware/%: xxe/%
 	@mkdir -p $(dir $@)
@@ -35,5 +35,8 @@ clean:
 
 again: clean all
 
-.PHONY: all check clean again
+install: build/xxe/courseware-xxe-config.zip
+	(cd $(HOME)/.xxe4/addon && unzip $(abspath $<))
+
+.PHONY: all check clean again install
 
