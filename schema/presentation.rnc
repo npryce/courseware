@@ -20,9 +20,9 @@ exercise = element exercise {
 }
 
 visual = element visual {
-      [a:defaultValue = "black"]
+      [a:defaultValue = "white"]
       attribute bg { text }?,
-	  fileref,
+      fileref,
       copyright?,
       license?
 }
