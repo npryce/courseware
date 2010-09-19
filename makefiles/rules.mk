@@ -1,13 +1,13 @@
 # To use this template makefile, define COURSE to be the filename of the course to build
 # and then include this file.
 
-
 # Optionally, define this variable to specify the directory containing the course files
 COURSEDIR?=courses
 
 # Optionally, define this variable to specify where the output documents will be built to
 OUTDIR?=output
 
+MAKEDIR=$(dir $(firstword $(MAKEFILE_LIST)))
 
 XSLT2=$(COURSEWARE_HOME)/bin/saxon
 
@@ -54,6 +54,7 @@ $(OUTDIR)/fo/%-slides.fo: $(COURSEDIR)/%.course
 $(OUTDIR)/course-depends.mk: $(COURSES)
 	@mkdir -p $(dir $@)
 	$(COURSEWARE_HOME)/bin/depends \
+		$(abspath $(MAKEDIR)) \
 		$(abspath $(OUTDIR)) \
 		$(abspath $(COURSEDIR)) \
 		$(foreach c,$(COURSES),$(abspath $c)) > $@
