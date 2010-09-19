@@ -9,7 +9,6 @@
   <xsl:variable name="nl" select="'&#10;'"/>
   
   <xsl:template match="cw:dependencies">
-    <xsl:value-of select="concat('base dir = ',$baseDir,$nl)"/>
     <xsl:apply-templates/>
   </xsl:template>
   
