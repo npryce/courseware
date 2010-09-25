@@ -4,7 +4,7 @@ basedir=`dirname $0`
 xsltdir=$basedir/../xslt/queries
 
 usage_error() {
-    echo usage: `basename $0` "<outdir>" "<coursedir>" "<course>..."
+    echo usage: `basename $0` "<projectdir>" "<outdir>" "<coursedir>" "<course>..."
     echo all arguments must be absolute paths!
     exit
 }
@@ -14,19 +14,20 @@ then
     usage_error
 fi
 
-outputdir="$1"
-coursedir="$2"
-shift 2
+projectdir="$1"
+outputdir="$2"
+coursedir="$3"
+shift 3
 courses="$@"
 
 dependencies() {
     src=$1
     $basedir/saxon \
-	-xsl:"$xsltdir/depends.xslt" -s:$1 outputDir=$outputdir courseDir=$coursedir
+	-xsl:"$xsltdir/depends.xslt" -s:$1 outputDir="$outputdir" courseDir="$coursedir"
 }
 
 to_gmake() {
-    $basedir/saxon -xsl:"$xsltdir/depends2make.xslt" -s:-
+    $basedir/saxon -xsl:"$xsltdir/depends2make.xslt" -s:- baseDir="$projectdir"
 }
 
 for course in $courses

@@ -5,12 +5,19 @@
   
   <xsl:output method="text"/>
   
+  <xsl:param name="baseDir"/>
+  <xsl:variable name="nl" select="'&#10;'"/>
+  
   <xsl:template match="cw:dependencies">
     <xsl:apply-templates/>
   </xsl:template>
   
   <xsl:template match="cw:dependency">
-    <xsl:value-of select="concat(@target,': ',@dependency,'&#10;')"/>
+    <xsl:value-of select="concat('&quot;', substring-after(@target,concat($baseDir,'/')),
+			         '&quot;: &quot;',
+				 substring-after(@dependency,concat($baseDir,'/')),
+				 '&quot;',
+				 $nl)"/>
   </xsl:template>
   
   <xsl:template match="text()"/>
