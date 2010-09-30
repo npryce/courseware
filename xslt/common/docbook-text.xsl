@@ -44,7 +44,7 @@
     </fo:inline>
   </xsl:template>
   
-  <xsl:template match="code">
+  <xsl:template match="code|classname|interfacename|methodname">
     <fo:inline font-family="Courier">
       <xsl:apply-templates />
     </fo:inline>
