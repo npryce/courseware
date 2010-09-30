@@ -6,4 +6,12 @@ then
 	exit 1
 fi
 
-java -jar $SAXON_HOME/saxon9he.jar "$@"
+bindir=`dirname $0`
+libdir=$bindir/../lib
+
+java -cp $SAXON_HOME/saxon9he.jar:$libdir/resolver.jar:$libdir \
+    net.sf.saxon.Transform \
+    -x:org.apache.xml.resolver.tools.ResolvingXMLReader \
+    -y:org.apache.xml.resolver.tools.ResolvingXMLReader \
+    -r:org.apache.xml.resolver.tools.CatalogResolver \
+    "$@"
