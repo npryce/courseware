@@ -78,6 +78,6 @@
   </xsl:template>
   
   <xsl:template match="slide[visual[fn:not(@bg)]]" mode="background-color">
-    black
+    white
   </xsl:template>
 </xsl:stylesheet>

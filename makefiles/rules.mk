@@ -6,7 +6,7 @@ OUTDIR?=output
 
 MAKEDIR=$(dir $(firstword $(MAKEFILE_LIST)))
 
-XSLT2=$(COURSEWARE_HOME)/bin/saxon
+XSLT2=$(COURSEWARE_HOME)/bin/saxon $(XSLT2OPTS)
 
 BUILD:=$(shell whoami)@$(shell hostname)
 TIMESTAMP:=$(shell date)
