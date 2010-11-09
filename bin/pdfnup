@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if which pdfnup
+then
+	pdfnup "$@"
+else
+	echo install pdfnup to get n-up printing of presenter notes
+fi

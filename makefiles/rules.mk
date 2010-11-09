@@ -102,11 +102,19 @@ endif
 
 slides: $(SLIDES)
 student-notes: $(STUDENT_NOTES)
-presenter-notes: $(PRESENTER_NOTES)
+presenter-notes: $(PRESENTER_NOTES) $(PRESENTER_NOTES:%.pdf=%-4up.pdf) $(PRESENTER_NOTES:%.pdf=%-2up.pdf)
+
 
 $(OUTDIR)/pdf/%.pdf: $(OUTDIR)/fo/%.fo
 	@mkdir -p $(dir $@)
 	fop -fo $< -pdf $@
+
+%-4up.pdf: %.pdf
+	$(COURSEWARE_HOME)/bin/pdfnup --nup 4 --orient portrait --openright true --outfile $@ $<
+
+%-2up.pdf: %.pdf
+	$(COURSEWARE_HOME)/bin/pdfnup --nup 2 --orient landscape --openright true --outfile $@ $<
+
 
 clean:
 	rm -rf $(OUTDIR)
