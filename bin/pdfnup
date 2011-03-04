@@ -1,8 +1,24 @@
 #!/bin/sh
 
-if which pdfnup
+which pdfnup > /dev/null
+if [ $? != 0 ]
 then
-	pdfnup "$@"
-else
 	echo install pdfnup to get n-up printing of presenter notes
+	exit 0
 fi
+
+nup=${1:?n-up not given}
+infile=${2?input file not given}
+outfile=${3?output file not given}
+
+case $nup in
+	2) orient=--landscape
+	;;
+	4) orient=--no-landscape
+	;;
+	*) echo "unknown n-up value: $nup"
+	   exit 1
+	;;
+esac
+pdfnup --nup $nup $orient --openright true --outfile "$outfile" "$infile"
+

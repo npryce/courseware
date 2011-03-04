@@ -110,10 +110,10 @@ $(OUTDIR)/pdf/%.pdf: $(OUTDIR)/fo/%.fo
 	fop -fo $< -pdf $@
 
 %-4up.pdf: %.pdf
-	$(COURSEWARE_HOME)/bin/pdfnup --nup 4 --orient portrait --openright true --outfile $@ $<
+	$(COURSEWARE_HOME)/bin/pdfnup 4 $< $@
 
 %-2up.pdf: %.pdf
-	$(COURSEWARE_HOME)/bin/pdfnup --nup 2 --orient landscape --openright true --outfile $@ $<
+	$(COURSEWARE_HOME)/bin/pdfnup 2 $< $@
 
 
 clean:
