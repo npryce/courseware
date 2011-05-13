@@ -1,8 +1,7 @@
-
-
 SCHEMA:=$(shell find schema/*)
 XSLT:=$(shell find xslt -not \( -name test -and -prune \))
 XXE:=$(shell find xxe/*)
+ADDON_DIR:=$(if $(findstring $(shell uname), "Darwin"),Library/Application\ Support/XMLmind/XMLEditor4/addon,.xxe4/addon)
 
 all: build/xxe/courseware-xxe-config.zip
 
@@ -36,7 +35,7 @@ clean:
 again: clean all
 
 install: build/xxe/courseware-xxe-config.zip
-	(cd $(HOME)/.xxe4/addon && unzip $(abspath $<))
+	(cd $(HOME)/$(ADDON_DIR) && unzip $(abspath $<))
 
 .PHONY: all check clean again install
 
