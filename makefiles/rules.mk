@@ -16,7 +16,9 @@ all: slides student-notes presenter-notes
 ifdef COURSEDIR
 # You can predefine this variable to build only a subset of the courses
 COURSES?=$(shell find $(COURSEDIR) -name "*.course")
+endif
 
+ifdef COURSES
 SLIDES+=$(COURSES:$(COURSEDIR)/%.course=$(OUTDIR)/pdf/%-slides.pdf)
 STUDENT_NOTES+=$(COURSES:$(COURSEDIR)/%.course=$(OUTDIR)/pdf/%-student-notes.pdf)
 PRESENTER_NOTES+=$(COURSES:$(COURSEDIR)/%.course=$(OUTDIR)/pdf/%-presenter-notes.pdf)
@@ -64,7 +66,9 @@ endif
 ifdef PRESENTATIONDIR
 # You can predefine this variable to build only a subset of the presentations
 PRESENTATIONS?=$(shell find $(PRESENTATIONDIR) -name "*.presentation")
+endif
 
+ifdef PRESENTATIONS
 SLIDES+=$(PRESENTATIONS:$(PRESENTATIONDIR)/%.presentation=$(OUTDIR)/pdf/%-slides.pdf)
 STUDENT_NOTES+=$(PRESENTATIONS:$(PRESENTATIONDIR)/%.presentation=$(OUTDIR)/pdf/%-student-notes.pdf)
 PRESENTER_NOTES+=$(PRESENTATIONS:$(PRESENTATIONDIR)/%.presentation=$(OUTDIR)/pdf/%-presenter-notes.pdf)
@@ -98,11 +102,19 @@ endif
 
 slides: $(SLIDES)
 student-notes: $(STUDENT_NOTES)
-presenter-notes: $(PRESENTER_NOTES)
+presenter-notes: $(PRESENTER_NOTES) $(PRESENTER_NOTES:%.pdf=%-4up.pdf) $(PRESENTER_NOTES:%.pdf=%-2up.pdf)
+
 
 $(OUTDIR)/pdf/%.pdf: $(OUTDIR)/fo/%.fo
 	@mkdir -p $(dir $@)
 	fop -fo $< -pdf $@
+
+%-4up.pdf: %.pdf
+	$(COURSEWARE_HOME)/bin/pdfnup 4 $< $@
+
+%-2up.pdf: %.pdf
+	$(COURSEWARE_HOME)/bin/pdfnup 2 $< $@
+
 
 clean:
 	rm -rf $(OUTDIR)
