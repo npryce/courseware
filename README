@@ -1,1 +1,4 @@
 XML document types and XSLT style sheets for creating courseware.
+This requires:
+- Apache fop in the path
+- Saxon available at $SAXON_HOME/saxon9he.jar
