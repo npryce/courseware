@@ -2,7 +2,7 @@
 
 if [ -z $SAXON_HOME ]
 then
-	echo SAXON_HOME not set
+	echo "SAXON_HOME not set" >&2
 	exit 1
 fi
 
