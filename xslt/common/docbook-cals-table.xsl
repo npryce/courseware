@@ -13,10 +13,16 @@
 	      border-collapse="separate"
 	      keep-together="always"
 	      text-align="start">
+      
       <xsl:call-template name="add-cols">
 	<xsl:with-param name="count" select="1" />
-	<xsl:with-param name="max" select="tgroup/@cols" />
+	<xsl:with-param name="max" select="number(tgroup/@cols)" />
       </xsl:call-template>
+      
+      <fo:table-header>
+	<xsl:apply-templates select="tgroup/thead/row" />
+      </fo:table-header>
+      
       <fo:table-body>
 	<xsl:apply-templates select="tgroup/tbody/row" />
       </fo:table-body>
@@ -26,8 +32,11 @@
   <xsl:template name="add-cols">
     <xsl:param name="count"/>
     <xsl:param name="max"/>
+    
+    <xsl:message>add-cols: count=<xsl:value-of select="$count"/>, max=<xsl:value-of select="$max"/></xsl:message>
+    
     <fo:table-column column-number="{$count}" column-width="proportional-column-width(1)"/> 
-    <xsl:if test="max > count">
+    <xsl:if test="$max > $count">
       <xsl:call-template name="add-cols">
 	<xsl:with-param name="count" select="$count + 1"/>
 	<xsl:with-param name="max" select="$max"/>
