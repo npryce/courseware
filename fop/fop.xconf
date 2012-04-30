@@ -27,7 +27,7 @@
         -->
         <auto-detect/>
       </fonts>
-
     </renderer>
+  </renderers>
 </fop>
 

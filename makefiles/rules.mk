@@ -6,7 +6,7 @@ OUTDIR?=output
 
 MAKEDIR=$(dir $(firstword $(MAKEFILE_LIST)))
 
-FOPTOPS=$(FOPOPTS) -c $(COURSEWARE_HOME)/fop/fop.xconf
+#FOPOPTS=$(FOPOPTIONS) -c $(COURSEWARE_HOME)/fop/fop.xconf
 XSLT2=$(COURSEWARE_HOME)/bin/saxon $(XSLT2OPTS)
 FOP=fop $(FOPOPTS)
 
