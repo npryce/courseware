@@ -11,7 +11,7 @@
   </xsl:template>
   
   <xsl:template match="programlisting|literallayout">
-    <fo:block font-family="Courier, monospace"
+    <fo:block font-family="Bitstream Vera Sans Mono, Courier, monospace"
 	      font-style="normal"
 	      font-size="smaller"
 	      text-align="start" 
@@ -45,7 +45,7 @@
   </xsl:template>
   
   <xsl:template match="code|classname|interfacename|methodname">
-    <fo:inline font-family="Courier">
+    <fo:inline font-family="Bitstream Vera Sans Mono, Courier, monospace">
       <xsl:apply-templates />
     </fo:inline>
   </xsl:template>
