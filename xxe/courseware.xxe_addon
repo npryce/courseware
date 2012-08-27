@@ -8,14 +8,14 @@
 
   <a:name>A configuration for creating courseware presentations</a:name>
 
-  <a:version>0.0.1</a:version>
+  <a:version>0.0.2</a:version>
 
   <a:author>
-    <a href="http://www.doc.ic.ac.uk/~np2">Nat Pryce</a>
+    <a href="http://natpryce.com">Nat Pryce</a>
   </a:author>
 
   <a:abstract>Create presentations along with presenter and student
   notes.</a:abstract>
 
-  <a:xxeVersion>3.6.3+</a:xxeVersion>
+  <a:xxeVersion>5.3.0+</a:xxeVersion>
 </a:addon>
