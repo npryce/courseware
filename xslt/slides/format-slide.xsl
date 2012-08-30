@@ -14,7 +14,7 @@
 	
 	<xsl:choose>
 	  <xsl:when test="$slideTitles = 'True'">
-	    <fo:block font-size="42pt" 
+	    <fo:block font-size="42pt"
 		      text-align="center" 
 		      space-before="1em" 
 		      space-before.conditionality="retain" 

@@ -7,6 +7,7 @@ OUTDIR?=output
 MAKEDIR=$(dir $(firstword $(MAKEFILE_LIST)))
 
 XSLT2=$(COURSEWARE_HOME)/bin/saxon $(XSLT2OPTS)
+FOP=fop $(FOPOPTS)
 
 BUILD:=$(shell whoami)@$(shell hostname)
 TIMESTAMP:=$(shell date)
@@ -104,10 +105,9 @@ slides: $(SLIDES)
 student-notes: $(STUDENT_NOTES)
 presenter-notes: $(PRESENTER_NOTES) $(PRESENTER_NOTES:%.pdf=%-4up.pdf) $(PRESENTER_NOTES:%.pdf=%-2up.pdf)
 
-
 $(OUTDIR)/pdf/%.pdf: $(OUTDIR)/fo/%.fo
 	@mkdir -p $(dir $@)
-	fop -fo $< -pdf $@
+	$(FOP) -fo $< -pdf $@
 
 %-4up.pdf: %.pdf
 	$(COURSEWARE_HOME)/bin/pdfnup 4 $< $@

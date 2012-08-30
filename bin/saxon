@@ -10,6 +10,7 @@ bindir=`dirname $0`
 libdir=$bindir/../lib
 
 java -cp $SAXON_HOME/saxon9he.jar:$libdir/resolver.jar:$libdir \
+    -Djava.awt.headless=true \
     net.sf.saxon.Transform \
     -x:org.apache.xml.resolver.tools.ResolvingXMLReader \
     -y:org.apache.xml.resolver.tools.ResolvingXMLReader \
