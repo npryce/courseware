@@ -35,38 +35,42 @@
   </xsl:template>
   
   <xsl:template match="unit">
-    <fo:block id="{fn:generate-id()}" 
-	      font-size="36pt" 
-	      break-before="page" 
-	      start-indent="4em" 
-	      space-before="72pt" 
-	      space-before.conditionality="retain">
-      <fo:block>
-	<xsl:value-of select='fn:concat("Unit ",1 + fn:count(preceding-sibling::unit), " - ")'/>
-	<fo:inline font-weight="bold">
-	  <xsl:value-of select="title"/>
-	</fo:inline>
-      </fo:block>
-      
-      <fo:block space-before="2em" font-size="28pt">
-	<fo:list-block start-indent="6em">
-	  <xsl:for-each select="exercise|presentation">
-	    <fo:list-item>
-	      <fo:list-item-label end-indent="label-end()">
-		<fo:block>&#x2022;</fo:block>
-	      </fo:list-item-label>
-	      <fo:list-item-body start-indent="body-start()" 
-				 wrap-option="wrap" 
-				 end-indent="1em">
-		<fo:block>
-		  <xsl:value-of select="fn:document(@fileref,.)/*/title"/>
-		</fo:block>
-	      </fo:list-item-body>
-	    </fo:list-item>
-	  </xsl:for-each>
-	</fo:list-block>
-      </fo:block>
-    </fo:block>
+    <xsl:if test="(fn:count(preceding-sibling::unit) + fn:count(following-sibling::unit) &gt; 0)">
+        <fo:block id="{fn:generate-id()}"
+              font-size="36pt"
+              break-before="page"
+              start-indent="4em"
+              space-before="72pt"
+              space-before.conditionality="retain">
+              <fo:block>
+            <xsl:value-of select='fn:concat("Unit ",1 + fn:count(preceding-sibling::unit), " - ")'/>
+            <fo:inline font-weight="bold">
+              <xsl:value-of select="title"/>
+            </fo:inline>
+              </fo:block>
+
+
+              <fo:block space-before="2em" font-size="28pt">
+            <fo:list-block start-indent="6em">
+              <xsl:for-each select="exercise|presentation">
+                <fo:list-item>
+                  <fo:list-item-label end-indent="label-end()">
+                <fo:block>&#x2022;</fo:block>
+                  </fo:list-item-label>
+                  <fo:list-item-body start-indent="body-start()"
+                         wrap-option="wrap"
+                         end-indent="1em">
+                <fo:block>
+                  <xsl:value-of select="fn:document(@fileref,.)/*/title"/>
+                </fo:block>
+                  </fo:list-item-body>
+                </fo:list-item>
+              </xsl:for-each>
+            </fo:list-block>
+              </fo:block>
+        </fo:block>
+	</xsl:if>
+
     
     <fo:block>
       <xsl:for-each select="exercise|presentation">

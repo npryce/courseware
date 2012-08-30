@@ -46,8 +46,10 @@
 	      space-before="72pt"
 	      space-before.conditionality="retain">
       <fo:block>
-	<xsl:value-of
-	    select='fn:concat("Unit ",1 + fn:count(preceding-sibling::unit))' />
+	<xsl:if test="(fn:count(preceding-sibling::unit) + fn:count(following-sibling::unit) &gt; 0)">
+		<xsl:value-of
+		    select='fn:concat("Unit ",1 + fn:count(preceding-sibling::unit))' />
+	</xsl:if>
       </fo:block>
       
       <fo:block font-weight="bold" space-before="1em">
