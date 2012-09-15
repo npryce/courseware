@@ -6,7 +6,7 @@
 		xmlns:fox="http://xml.apache.org/fop/extensions">
   
   <xsl:template match="slide">
-    <fo:block break-before="">
+    <fo:block break-before="" id="{fn:generate-id()}">
       <xsl:choose>
 	<xsl:when test="$format = 'Presenter'">
 	  <xsl:attribute name="break-before">even-page</xsl:attribute>
