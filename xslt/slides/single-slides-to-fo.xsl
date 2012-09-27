@@ -16,7 +16,6 @@
   <xsl:include href="create-bookmarks-for-slides.xsl"/>
   <xsl:include href="create-slide-contents.xsl"/>
   <xsl:include href="format-slide.xsl"/>
-  <xsl:include href="../common/link.xsl"/>
   <xsl:include href="../common/include-docbook-related-stylesheets.xsl"/>
   <xsl:include href="../common/match-all-remaining-elements.xsl"/>
   

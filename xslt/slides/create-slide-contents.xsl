@@ -8,7 +8,7 @@
     <fo:page-sequence master-reference="contents"
 		      initial-page-number="1">
       <fo:flow flow-name="xsl-region-body" padding="0" color="black">
-	    <xsl:apply-templates />
+	<xsl:apply-templates />
       </fo:flow>
     </fo:page-sequence>
   </xsl:template>

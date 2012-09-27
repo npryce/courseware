@@ -17,7 +17,6 @@
   <xsl:include href="create-contents.xsl" />
   <xsl:include href="format-notes.xsl" />
   <xsl:include href="format-slide-for-notes.xsl" />
-  <xsl:include href="../common/link.xsl"/>
   <xsl:include href="../common/include-docbook-related-stylesheets.xsl" />
   <xsl:include href="../common/match-all-remaining-elements.xsl" />
   
