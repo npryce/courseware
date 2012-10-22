@@ -2,35 +2,42 @@
 
 section {
     display: block;
-	margin: 1em;
-	background-color: white;
+    margin: 1em;
+    background-color: white;
 }
 
 presentation:root {
     display: block;
-	margin: 1em;
-	background-color: white;
+    margin: 1em;
+    background-color: white;
 }
 
 title {
-	display: block;
-	font-size: 32pt;
-	font-weight: bold;
-	text-align: center;
-	margin-bottom: 0.5em;
+    display: block;
+    font-size: 32pt;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 0.5em;
 }
 
-presentation[status="incomplete"]>title:after {
+presentation>copyright {
+    display: block;
+    text-align: center;
+    font-size: 24pt;
+    margin-bottom: 0.5em;
+}
+
+presentation[status="incomplete"]>title:before {
     content: "Status: Incomplete";
 }
 
-presentation[status="draft"]>title:after {
+presentation[status="draft"]>title:before {
     content: "Status: Draft";
 }
 
-presentation>title:after {
+presentation>title:before {
     display: block;
-    font-size: 28pt;
+    font-size: 16pt;
     font-weight: normal;
     font-style: italic;
     text-align: center;
@@ -181,51 +188,51 @@ programlisting {
 }
 
 orderedlist {
-	display: block;
-	list-style-type: decimal;
+    display: block;
+    list-style-type: decimal;
 }
 
 itemizedlist {
-	display: block;
-	list-style-type: disc;
+    display: block;
+    list-style-type: disc;
 }
 
 listitem {
-   	display: list-item;
+    display: list-item;
 }
 
 termlist {
-	display: block;
-	list-style-type: disc;
+    display: block;
+    list-style-type: disc;
 }
 
 termlistitem {
-	display: list-item;
+    display: list-item;
 }
 
 term {
-	display: inline;
-	font-weight: bold;
+    display: inline;
+    font-weight: bold;
 }
 
 term:after {
-	content: ": ";
+    content: ": ";
 }
 
 description {
-	display: block;
+    display: block;
 }
 
 copyright {
-	display: block;
+    display: block;
 }
 
 copyright:before {
-	content: "Copyright © ";
+	content: "Copyright \00A9 ";
 }
 
 visual copyright:before {
-    content: "Image copyright © ";
+    content: "Image copyright \00A9 ";
 }
 
 copyright holder:before {
@@ -233,11 +240,11 @@ copyright holder:before {
 }
 
 license {
-	display: block;
+    display: block;
 }
 
 license:before {
-	content: "License: ";
+    content: "License: ";
 }
 
 
@@ -246,7 +253,7 @@ license:before {
  */
 
 unit {
-	display: block;
+    display: block;
 }
 
 course copyright {
@@ -269,11 +276,11 @@ email {
 }
 
 firstname {
-	display: inline;
+    display: inline;
 }
 
 surname {
-	display: inline;
+    display: inline;
 }
 
 surname:before {
@@ -284,91 +291,91 @@ unit title {
     display: block;
     text-align: left;
     font-size: 150%;
-	margin-top: 1em;
+    margin-top: 1em;
 }
 
 course exercise:before, course presentation {
     display: block;
-	content: 
-		division(
-			content(
-				paragraph(
-					content(
-						element-label(), ": ",
-						command-button(
-							text, xpath("document(@fileref)//title[1]"),
-							command, "cw.editLinkedDocument",
-							parameter, attr(fileref)
-							tool-tip, "Open the linked document for editing",
-							text-decoration, underline
-						)
-					),
-					margin-left, 0,
-					margin-right, 0,
-					margin-top, 1em,
-					margin-bottom, 0.1em,
-					font-size, 125%,
-					font-weight, normal
-				),
-				paragraph(
-					content(
-						command-button(
-							icon, url(link.png),
-							command, "cw.selectLinkedDocument",
-							parameter, fileref,
-							tool-tip, "Link to a document"
-						),
-						drop-site(
-							text, attr(fileref),
-							command, "cw.linkDocument",
-							parameter, "fileref %{url}",
-							tool-tip, "Drop a file here to link to a document"
-						)
-					)
-				)
-			)
-		);
+    content: 
+        division(
+            content(
+                paragraph(
+                    content(
+                        element-label(), ": ",
+                        command-button(
+                            text, xpath("document(@fileref)//title[1]"),
+                            command, "cw.editLinkedDocument",
+                            parameter, attr(fileref)
+                            tool-tip, "Open the linked document for editing",
+                            text-decoration, underline
+                        )
+                    ),
+                    margin-left, 0,
+                    margin-right, 0,
+                    margin-top, 1em,
+                    margin-bottom, 0.1em,
+                    font-size, 125%,
+                    font-weight, normal
+                ),
+                paragraph(
+                    content(
+                        command-button(
+                            icon, url(link.png),
+                            command, "cw.selectLinkedDocument",
+                            parameter, fileref,
+                            tool-tip, "Link to a document"
+                        ),
+                        drop-site(
+                            text, attr(fileref),
+                            command, "cw.linkDocument",
+                            parameter, "fileref %{url}",
+                            tool-tip, "Drop a file here to link to a document"
+                        )
+                    )
+                )
+            )
+        );
 }
 
 course exercise {
-	display: block;
+    display: block;
 }
 
 course exercise:empty {
-	content: insert-button();
+    content: insert-button();
 }
 
 course exercise handout {
-	display: block;
-	content: paragraph(
-					content(
-						"Handout: ",
-						command-button(
-							icon, url(open.png),
-							command, "cw.editLinkedDocument",
-							parameter, attr(fileref),
-							select, no,
-							tool-tip, "Open the linked document for editing"
-						),
-						command-button(
-							icon, url(link.png),
-							command, "cw.selectLinkedDocument",
-							parameter, fileref,
-							tool-tip, "Link to a document"
-						),
-						drop-site(
-							text, attr(fileref),
-							command, "cw.linkDocument",
-							parameter, "fileref %{url}",
-							tool-tip, "Drop a file here to link to a document"
-						)
-					),
-					padding-bottom, 0.1em
-				)
+    display: block;
+    content: paragraph(
+        content(
+            "Handout: ",
+            command-button(
+                icon, url(open.png),
+                command, "cw.editLinkedDocument",
+                parameter, attr(fileref),
+                select, no,
+                tool-tip, "Open the linked document for editing"
+            ),
+            command-button(
+                icon, url(link.png),
+                command, "cw.selectLinkedDocument",
+                parameter, fileref,
+                tool-tip, "Link to a document"
+            ),
+            drop-site(
+                text, attr(fileref),
+                command, "cw.linkDocument",
+                parameter, "fileref %{url}",
+                tool-tip, "Drop a file here to link to a document"
+            )
+        ),
+        padding-bottom, 0.1em
+    )
 }
 
 course exercise handout:last-of-type:after {
-	display: block;
-	content: insert-same-after-button();
+    display: block;
+    content: insert-same-after-button();
 }
 
