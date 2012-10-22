@@ -21,7 +21,7 @@
   <xsl:variable name="copyright">
     <xsl:call-template name="docbook-copyright">
       <xsl:with-param name="docBookCopyright"
-		      select="/copyright" />
+		      select="/presentation/copyright" />
     </xsl:call-template>
   </xsl:variable>
   
@@ -37,5 +37,8 @@
 	</fo:flow>
       </fo:page-sequence>
     </fo:root>
+  </xsl:template>
+  
+  <xsl:template match="/presentation/copyright">
   </xsl:template>
 </xsl:stylesheet>

@@ -21,7 +21,7 @@
   
   <xsl:variable name="copyright">
     <xsl:call-template name="docbook-copyright">
-      <xsl:with-param name="docBookCopyright" select="course/copyright"/>
+      <xsl:with-param name="docBookCopyright" select="/presentation/copyright"/>
     </xsl:call-template>
   </xsl:variable>
   
@@ -31,5 +31,8 @@
       <xsl:call-template name="create-bookmarks"/>
       <xsl:call-template name="create-slide-contents"/>
     </fo:root>
+  </xsl:template>
+  
+  <xsl:template match="/presentation/copyright">
   </xsl:template>
 </xsl:stylesheet>
