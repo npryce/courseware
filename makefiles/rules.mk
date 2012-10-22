@@ -11,6 +11,9 @@ FOP=fop $(FOPOPTS)
 
 BUILD:=$(shell whoami)@$(shell hostname)
 TIMESTAMP:=$(shell date)
+ifndef VERSION
+VERSION=$(TIMESTAMP)
+endif
 
 all: slides student-notes presenter-notes
 
@@ -74,31 +77,26 @@ SLIDES+=$(PRESENTATIONS:$(PRESENTATIONDIR)/%.presentation=$(OUTDIR)/pdf/%-slides
 STUDENT_NOTES+=$(PRESENTATIONS:$(PRESENTATIONDIR)/%.presentation=$(OUTDIR)/pdf/%-student-notes.pdf)
 PRESENTER_NOTES+=$(PRESENTATIONS:$(PRESENTATIONDIR)/%.presentation=$(OUTDIR)/pdf/%-presenter-notes.pdf)
 
+PRESENTATION_PARAMS=\
+	courseCode=$(shell basename $< .presentation) \
+	timestamp="$(TIMESTAMP)" \
+	version=$(VERSION) \
+	build="$(BUILD)"
+
 $(OUTDIR)/fo/%-student-notes.fo: $(PRESENTATIONDIR)/%.presentation
 	@mkdir -p $(dir $@)
 	$(XSLT2) -xsl:$(COURSEWARE_HOME)/xslt/notes/single-notes-to-fo.xsl \
-		-s:$< \
-		timestamp="$(TIMESTAMP)" \
-		build="$(BUILD)" \
-		courseCode=$(shell basename $< .presentation) \
-		format=Student > $@
+		-s:$< $(PRESENTATION_PARAMS) format=Student > $@
 
 $(OUTDIR)/fo/%-presenter-notes.fo: $(PRESENTATIONDIR)/%.presentation
 	@mkdir -p $(dir $@)
 	$(XSLT2) -xsl:$(COURSEWARE_HOME)/xslt/notes/single-notes-to-fo.xsl \
-		-s:$< \
-		timestamp="$(TIMESTAMP)" \
-		build="$(BUILD)" \
-		courseCode=$(shell basename $< .presentation) \
-		format=Presenter > $@
+		-s:$< $(PRESENTATION_PARAMS) format=Presenter > $@
 
 $(OUTDIR)/fo/%-slides.fo: $(PRESENTATIONDIR)/%.presentation
 	@mkdir -p $(dir $@)
 	$(XSLT2) -xsl:$(COURSEWARE_HOME)/xslt/slides/single-slides-to-fo.xsl \
-		-s:$< \
-		timestamp="$(TIMESTAMP)" \
-		build="$(BUILD)" \
-		courseCode=$(shell basename $< .course) > $@
+		-s:$< $(PRESENTATION_PARAMS) > $@
 endif
 
 slides: $(SLIDES)
