@@ -36,7 +36,7 @@ clean:
 again: clean all
 
 install: build/xxe/courseware-xxe-config.zip
-	(cd $(HOME)/$(XXE_ADDON_DIR) && unzip $(abspath $<))
+	(cd $(HOME)/$(XXE_ADDON_DIR) && unzip -o $(abspath $<))
 
 .PHONY: all check clean again install
 
