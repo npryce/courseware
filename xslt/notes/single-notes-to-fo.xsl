@@ -11,12 +11,10 @@
   <xsl:param name="format" />
   
   <xsl:include href="page-layouts.xsl" />
-  <xsl:include href="create-front-matter.xsl" />
-  <xsl:include href="build-toc.xsl" />
   <xsl:include href="create-bookmarks-for-notes.xsl" />
-  <xsl:include href="create-contents.xsl" />
   <xsl:include href="format-notes.xsl" />
   <xsl:include href="format-slide-for-notes.xsl" />
+  <xsl:include href="create-single-presentation-front-matter.xsl" />
   <xsl:include href="../common/include-docbook-related-stylesheets.xsl" />
   <xsl:include href="../common/match-all-remaining-elements.xsl" />
   
@@ -32,10 +30,12 @@
       <xsl:call-template name="create-page-layouts" />
       <xsl:call-template name="create-bookmarks" />
       <xsl:call-template name="create-front-matter" />
-      <!-- Two pages in front matter -->
-      <xsl:call-template name="create-contents">
-	<xsl:with-param name="startingPageNumber" select="3" />
-      </xsl:call-template>
+      
+      <fo:page-sequence master-reference="contents" initial-page-number="2">
+	<fo:flow flow-name="xsl-region-body" padding="0">
+	  <xsl:apply-templates />
+	</fo:flow>
+      </fo:page-sequence>
     </fo:root>
   </xsl:template>
 </xsl:stylesheet>
