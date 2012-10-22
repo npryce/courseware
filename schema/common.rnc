@@ -4,13 +4,13 @@ title = element title { text }
 
 copyright = element copyright {
 	element year {text},
-    element holder {text},
+	element holder {text},
 	license?
 }
 
 license = element license {
 	attribute href {text}?,
-    {text}
+	{text}
 }
 
 author = element author {

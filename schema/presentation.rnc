@@ -3,6 +3,7 @@ namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
 presentation = element presentation {
    attribute status {"incomplete" | "draft" | "ready"},
    title,
+   copyright?,
    (slide|exercise)+
 }
 
