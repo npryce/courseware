@@ -78,9 +78,9 @@ STUDENT_NOTES+=$(PRESENTATIONS:$(PRESENTATIONDIR)/%.presentation=$(OUTDIR)/pdf/%
 PRESENTER_NOTES+=$(PRESENTATIONS:$(PRESENTATIONDIR)/%.presentation=$(OUTDIR)/pdf/%-presenter-notes.pdf)
 
 PRESENTATION_PARAMS=\
-	courseCode=$(shell basename $< .presentation) \
+	courseCode="$(shell basename $< .presentation)" \
 	timestamp="$(TIMESTAMP)" \
-	version=$(VERSION) \
+	version="$(VERSION)" \
 	build="$(BUILD)"
 
 $(OUTDIR)/fo/%-student-notes.fo: $(PRESENTATIONDIR)/%.presentation
