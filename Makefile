@@ -1,7 +1,7 @@
 SCHEMA:=$(shell find schema/*)
 XSLT:=$(shell find xslt -not \( -name test -and -prune \))
 XXE:=$(shell find xxe/*)
-XXE_VERSION=5
+XXE_VERSION=7
 XXE_ADDON_DIR:=$(if $(findstring $(shell uname), "Darwin"),Library/Application\ Support/XMLmind/XMLEditor$(XXE_VERSION)/addon,.xxe$(XXE_VERSION)/addon)
 
 all: build/xxe/courseware-xxe-config.zip
